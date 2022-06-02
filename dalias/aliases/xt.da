@@ -1,0 +1,2 @@
+#! /usr/bin/env sh
+xterm -fa "TerminessTTF Nerd Font Mono:size=11:antialias=true" -class floaterm -T floaterm -geometry 120x25

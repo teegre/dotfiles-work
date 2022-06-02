@@ -1,0 +1,2 @@
+#! /usr/bin/env sh
+bigtime -dqs --file digits -F1

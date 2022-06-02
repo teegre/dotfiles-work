@@ -1,0 +1,10 @@
+# /home/tigerlost/.config/tmuxinator/float.yml
+
+name: float
+root: ~/
+
+windows:
+  - float: nf
+  - files: nnn -d
+  - mixer: pulsemixer
+

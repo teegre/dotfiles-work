@@ -1,0 +1,2 @@
+#! /usr/bin/env sh
+sudo EDITOR=nvim crontab -e

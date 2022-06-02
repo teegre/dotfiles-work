@@ -1,0 +1,2 @@
+#! /usr/bin/env sh
+nvim /home/stephane/.config/i3/config

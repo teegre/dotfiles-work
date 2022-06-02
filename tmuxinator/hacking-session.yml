@@ -1,0 +1,9 @@
+# /home/stephane/.config/tmuxinator/hacking-session.yml
+
+name: hacking-session
+root: ~/
+
+windows:
+  - hack: nf
+  - term: nf
+  - mon: htop

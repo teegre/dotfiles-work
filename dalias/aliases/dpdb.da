@@ -1,0 +1,2 @@
+#! /usr/bin/env sh
+mysqldump -u admin --password=alcfmapjtlsbqjmsb records > ~/projets/MSDIW22091/9_symfony/records/public/src/records.sql

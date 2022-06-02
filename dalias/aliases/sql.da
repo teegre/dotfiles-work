@@ -1,0 +1,2 @@
+#! /usr/bin/env sh
+mysql --user=admin --password=alcfmapjtlsbqjmsb --prompt="\d\_>>>\_" "$1"

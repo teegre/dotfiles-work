@@ -1,0 +1,18 @@
+# /home/tigerlost/.config/tmuxinator/session.yml
+# f04c,192x47,0,0[192x2,0,0,39,192x10,0,3,48,192x9,0,14,49,192x23,0,24{143x23,0,24,45,48x23,144,24[48x11,144,24,46,48x11,144,36,47]}]
+
+name: session
+root: ~/
+
+windows:
+  - session:
+      layout: 09b7,194x48,0,0[194x15,0,0,7,194x29,0,16,11,194x2,0,46{97x2,0,46,9,96x2,98,46,10}]
+      panes:
+        - ttime
+        - cava
+        - tt
+        - netspeed-cli
+  - mon:
+      panes:
+        - htop
+        - clear; journalctl -f
