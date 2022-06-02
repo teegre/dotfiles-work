@@ -1,0 +1,7 @@
+[init]
+	defaultBranch = master
+[user]
+	name = Stéphane MEYER
+	email = stm3y3r@icloud.com
+[credential]
+	helper = store
