@@ -8,7 +8,7 @@
 export TERMINAL=sakura
 export EDITOR=nvim
 export BROWSER=firefox
-export SECRET_KEY="lbiax0ly=6u(pt)4l2@%mx8euts9orrbqfh@!t^fx9m^=)"
+export SECRET_KEY=""
 
 alias ls='ls --color=auto'
 PS1='\W > '
