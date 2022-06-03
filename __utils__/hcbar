@@ -1,0 +1,77 @@
+#! /usr/bin/env bash
+
+### Herbstluftwm Tagbar Module for Polybar
+
+mon=${1:-0}
+
+nbg="$(xgetres color0)" # normal background
+nfg="$(xgetres color7)" # normal foreground
+sbg="$(xgetres color3)" # selected background
+red="#FF0000"           # red
+wht="#FFFFFF"           # white
+
+hc() { herbstclient "$@"; }
+
+get_tags() {
+  local tag T I
+  IFS=$'\t' read -ra tags <<< "$(hc tag_status "$mon")"
+  unset TAGS
+  for tag in "${tags[@]}"; do
+    T="${tag:1}"
+    I="$(hc get_attr tags.by-name."$T".index)"
+    case ${tag:0:1} in
+      ":")
+          if [[ $(myhc get_tag_mon "$T") == "$mon" ]]; then
+            TAGS+="%{B$nbg}%{F$sbg}%{A1:myhc switch_to_tag $I:} $T %{A}"    # not empty + focused
+          else
+            TAGS+="%{B$nbg}%{F$nfg}%{A1:myhc switch_to_tag $I:} $T %{A}"    # not empty + unfocused
+          fi
+          ;;
+      "#")  TAGS+="%{B$sbg}%{F$nfg}%{A1:myhc switch_to_tag $I:} $T %{A}" ;; # viewed + focused
+      "-")  TAGS+="%{B$nbg}%{F$nfg}%{A1:myhc switch_to_tag $I:} $T %{A}" ;; # unfocused
+      "+")  TAGS+="%{B$nfg}%{F$nbg}%{A1:myhc switch_to_tag $I:} $T %{A}" ;; # viewed + unfocused
+      "%")  TAGS+="%{B$nbg}%{F$nfg}%{A1:myhc switch_to_tag $I:} $T %{A}" ;; # viewed and focused
+      "!")  TAGS+="%{B$red}%{F$wht}%{A1:myhc switch_to_tag $I:} $T %{A}" ;; # urgent
+    esac
+  done
+}
+
+get_clients() {
+  local tag clients
+  tag="$(hc attr monitors."$mon".tag)"
+  clients="$(hc attr tags.by-name."$tag".curframe_wcount)"
+  ((clients>0)) && { echo -n "$clients" ;  return; }
+  echo -n "M"
+}
+
+get_layout() {
+  local _layout tag _float
+  tag="$(hc attr monitors."$mon".tag)"
+  _layout="$(myhc layout "$tag")"
+  _float="$(hc floating "$tag" status)"
+
+  case $_layout in
+    vertical  ) LAYOUT="%{B$nbg}%{F$nfg} [-] " ;;
+    horizontal) LAYOUT="%{B$nbg}%{F$nfg} [|] " ;;
+    max       ) LAYOUT="%{B$nbg}%{F$nfg} [$(get_clients)] " ;;
+    grid      ) LAYOUT="%{B$nbg}%{F$nfg} [+] " ;;
+  esac
+  if [[ $_float == "on" ]]; then
+    LAYOUT="%{B$nbg}%{F$nfg} [_] "
+  fi
+}
+
+{
+get_tags
+get_layout
+echo "${TAGS}${LAYOUT}"
+while IFS=$'\t' read -ra cmd; do
+  case ${cmd[0]} in
+    tag*          ) get_tags; get_layout ;;
+    layout_changed) get_layout ;;
+    focus_changed ) get_tags; get_layout ;;
+    urgent        ) get_tags ;;
+  esac
+  echo "${TAGS}${LAYOUT}"
+done < <(hc --idle)
+}

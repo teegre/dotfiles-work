@@ -1,0 +1,26 @@
+#! /usr/bin/env bash
+#            
+normal="$(xgetres color8)"
+standout="$(xgetres color7)"
+color="$(xgetres color3)"
+day="$(LC_TIME=C date "+%a")"
+day="${day^^}"
+day="${day:0:2}"
+hour="$(LC_TIME=C date "+%I")"
+# uptime="$(uptime -p | cut -d' ' -f 2-)"
+# echo -n "$uptime "
+case $hour in
+  01) echo -n " " ;;
+  02) echo -n " " ;;
+  03) echo -n " " ;;
+  04) echo -n " " ;;
+  05) echo -n " " ;;
+  06) echo -n " " ;;
+  07) echo -n " " ;;
+  08) echo -n " " ;;
+  09) echo -n " " ;;
+  10) echo -n " " ;;
+  11) echo -n " " ;;
+  12) echo -n " " ;;
+esac
+LC_TIME=C date +"%%{F$standout}%I%%{F$normal}:%M %%{F$standout}%p%%{F$normal} %%{F$color}$day %%{F$normal}%m-%%{F$standout}%d"

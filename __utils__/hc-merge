@@ -1,0 +1,46 @@
+#! /usr/bin/env bash
+
+# .Xresources: add dmenu colors.
+
+# 1. Backup .Xresources file
+cp "$HOME/.Xresources" "$HOME/.Xresources.bak"
+:> "$HOME/.Xresources"
+
+# 2. Append the new colors.
+i=0
+while read -r color; do
+	echo "color$i: $color" >> "$HOME/.Xresources"
+	((i++))
+done < <(cat "$HOME/.cache/wal/colors")
+
+echo "dmenu.font: TerminessTTF Nerd Font:size=11" >> "$HOME/.Xresources"
+
+# 4. Reload .Xresources"
+xrdb "$HOME/.Xresources"
+
+# 5. Change Herbstluftwm and dmenu colors
+hc() { herbstclient "$@"; }
+fn="$(xgetres dmenu.font)"
+
+nb="$(xgetres color0)"
+nf="$(xgetres color7)"
+sb="$(xgetres color9)"
+sf="$(xgetres color0)"
+
+Mod=Mod4
+hc keyunbind $Mod-x
+
+hc keybind $Mod-x spawn dmenu_run -fn "$fn" -nb "$nb" -nf "$nf" -sb "$sb" -sf "$sf"
+
+hc set frame_border_active_color   "$(xgetres color7)"
+hc set frame_border_normal_color   "$(xgetres color0)"
+hc set frame_bg_normal_color       "$(xgetres color0)"
+hc set frame_bg_active_color       "$(xgetres color3)"
+hc attr theme.active.color         "$(xgetres color6)"
+hc attr theme.normal.color         "$(xgetres color0)"
+hc attr theme.urgent.color         "$(xgetres color3)"
+hc attr theme.inner_color          "$(xgetres color0)"
+hc attr theme.floating.outer_color "$(xgetres color0)"
+hc attr theme.active.inner_color   "$(xgetres color7)"
+hc attr theme.active.outer_color   "$(xgetres color7)"
+hc attr theme.background_color     "$(xgetres color2)"

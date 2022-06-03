@@ -1,0 +1,85 @@
+#! /bin/env bash
+VERSION="20211225-1.3.9"
+
+__printhelp() {
+
+cat << 'EOB' >&2
+MANPAC - a pacman wrapper
+
+USAGE:
+manpac option
+manpac option PACKAGE
+
+OPTIONS:
+cache               - clean previously unused downloaded packages
+clean               - remove orphan packages
+count               - count packages that need an upgrade
+download            - download new package (no installation)
+files   PACKAGE     - print files from a given package
+pkg     FILE        - print which package holds FILE
+install PACKAGE(S)  - install packages
+search  PACKAGE     - search the database for a given package
+lscache [SEARCHSTR] - print cache directory content for file matching SEARCHSTR
+new                 - print packages that need an upgrade
+remove  PACKAGE(S)  - remove packages
+unlock              - fix locked database issue.
+update              - sync and update the system
+help                - print this help and exit
+version             - print program version and exit
+EOB
+}
+
+__clean() {
+  echo "[MANPAC] search for orphan packages"
+  pacman -Qtdq > /dev/null || {
+    echo "[MANPAC] nothing to do."
+    return 1
+  }
+
+  while read -r line; do
+    sudo pacman -Rns --noconfirm "$line"
+  done< <(pacman -Qtdq)
+
+}
+
+CACHE="/var/cache/pacman/pkg"
+
+# shellcheck disable=2012
+# shellcheck disable=2086
+lscache() {
+  local pkg="$1"
+  [[ $pkg =~ \*$ ]] || pkg+="*"
+  ls -Ahlc $CACHE/$pkg 2> /dev/null | less -F || echo "manpac: package $1 not found."
+}
+
+unlock() {
+  local lockfile="/var/lib/pacman/db.lck"
+  [[ -a $lockfile ]] && {
+    sudo rm "$lockfile" && return 0
+  }
+  return 1
+}
+
+# shellcheck disable=2048
+# shellcheck disable=2086
+{
+case $1 in
+  cache   )  sudo pacman -Sc ;;
+  clean   )  __clean ;;  #sudo pacman -Rns "$(pacman -Qtdq)" ;;
+  count   ) pacman -Qu | wc -l ;;
+  download) sudo pacman -Syuw --noconfirm ;;
+  files   ) pacman -Ql "$2" | less -F ;;
+  pkg     ) pacman -Qo "$2" ;;
+  install ) shift; sudo pacman -S $* ;;
+  search  ) pacman -Ss "$2" | less -F ;;
+  lscache ) lscache "$2" ;;
+  new     ) pacman -Qu | less -F ;;
+  remove  ) shift; sudo pacman -Rns $* ;;
+  unlock  ) unlock ;;
+  update  ) shift; sudo pacman --noconfirm --color always -Syu $* ;;
+  help    ) __printhelp ;;
+  version ) echo "MANPAC version $VERSION" ;;
+  ""      ) echo -e "MANPAC version $VERSION - a pacman wrapper.\ntry 'manpac help' for more info." ;;
+  *       ) echo -e "[MANPAC] invalid option '$1'.\ntry 'manpac help' for more info."
+esac
+}

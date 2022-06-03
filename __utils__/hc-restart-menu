@@ -1,0 +1,26 @@
+#! /usr/bin/env bash
+
+hc() { herbstclient "$@"; }
+
+_options="lock\nlogout\nreboot\npower off"
+
+fnt="$(xgetres dmenu.font)"
+bgc="$(xgetres color0)"
+fgc="$(xgetres color7)"
+sbc="$(xgetres color9)"
+sfc="$(xgetres color0)"
+
+result="$(echo -e "$_options" | dmenu \
+    -p "⏻ "                           \
+    -fn "$fnt"                        \
+    -nb "$bgc"                        \
+    -nf "$fgc"                        \
+    -sb "$sbc"                        \
+    -sf "$sfc")"
+
+case $result in
+    lock       ) i3lock -c "$(xgetres color0)" ;;
+    logout     ) hc quit                       ;;
+    reboot     ) sudo systemctl reboot              ;;
+    "power off") sudo systemctl poweroff            ;;
+esac

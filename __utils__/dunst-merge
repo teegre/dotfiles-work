@@ -1,0 +1,32 @@
+#! /usr/bin/bash
+
+DUNSTDIR="$HOME/.config/dunst"
+
+echo "
+[urgency_low]
+background = \"$(xgetres color0)\"
+foreground = \"$(xgetres color7)\"
+frame_color = \"$(xgetres color7)\"
+timeout = 10
+
+[urgency_normal]
+background = \"$(xgetres color4)\"
+foreground = \"$(xgetres color0)\"
+frame_color = \"$(xgetres color0)\"
+timeout = 10
+
+[urgency_critical]
+background = \"$(xgetres color1)\"
+foreground = \"$(xgetres color7)\"
+frame_color = \"$(xgetres color7)\"
+timeout = 0
+" > $DUNSTDIR/dunst-theme
+
+{
+  cat $DUNSTDIR/dunst-config
+  cat $DUNSTDIR/dunst-theme
+} > $DUNSTDIR/dunstrc
+
+pidof dunst > /dev/null && killall dunst
+dunst &> /dev/null &
+

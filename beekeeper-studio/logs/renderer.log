@@ -944,3 +944,14 @@ join artist on disc.artist_id = artist.artist_id' at line 1
     at app://./js/app.11307514.js:1:285199
     at zh (app://./js/app.11307514.js:1:290940)
     at Object.execute (app://./js/app.11307514.js:1:285162)
+[2022-06-02 15:41:07.485] [error] (ConnectionInterface) TypeError: Cannot open database because the directory does not exist
+    at new Database (/opt/Beekeeper Studio/resources/app.asar/node_modules/better-sqlite3/lib/database.js:59:9)
+    at zh (app://./js/app.11307514.js:1:290896)
+    at Bh (app://./js/app.11307514.js:1:290853)
+    at th (app://./js/app.11307514.js:1:283406)
+    at wm (app://./js/app.11307514.js:1:299431)
+    at b.connect (app://./js/app.11307514.js:1:398283)
+    at Array.<anonymous> (app://./js/chunk-vendors.1d55ef3c.js:2433:6511)
+    at b.dispatch (app://./js/chunk-vendors.1d55ef3c.js:2433:7846)
+    at b.dispatch (app://./js/chunk-vendors.1d55ef3c.js:2433:3990)
+    at submit (app://./js/app.11307514.js:1:377049)

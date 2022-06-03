@@ -1,0 +1,55 @@
+#! /usr/bin/env bash
+
+PIDFILE="/tmp/polytitle:$$:scroller:pid"
+
+kill_procs() {
+  local PID=$1
+  {
+    while read -r; do
+      kill INT $((REPLY))
+      wait $((REPLY))
+    done < <(lscp $((PID)))
+    kill -0 $((PID)) && kill INT $((PID))
+  } 2> /dev/null
+}
+
+quit() {
+  (( PID > 0 )) && kill_procs "$PID"
+}
+
+# trap 'quit' INT EXIT
+
+while read -r id; do
+
+  [[ $PID ]] && kill -0 $((PID)) 2> /dev/null &&
+    kill_procs $((PID)) &&
+      unset PID
+
+  [[ $id =~ ^.*#[[:space:]]*(.+)$ ]] && id="${BASH_REMATCH[1]}"
+
+  # set -m
+  (
+    trap quit INT EXIT
+    while read -r; do
+      [[ -f $PIDFILE ]] && sPID="$(<"$PIDFILE")"
+      [[ $sPID ]] && kill -0 $((sPID)) 2> /dev/null &&
+      {
+        kill INT $((sPID)) 2> /dev/null
+        wait $((sPID)) 2> /dev/null
+        [[ -f "$PIDFILE" ]] && rm "$PIDFILE"
+      }
+      [[ $REPLY =~ ^.*=[[:space:]]*\"(.+)\"$ ]] && {
+        scroller -s " /// " -t "${BASH_REMATCH[1]//\\}" & echo $! > "$PIDFILE"
+        sPID="$(<"$PIDFILE")"
+        kill -0 $((sPID)) 2> /dev/null || {
+          rm "$PIDFILE" 2> /dev/null
+          unset sPID
+        }
+      }
+    done < <(xprop -spy -id "$id" _NET_WM_NAME 2> /dev/null)
+    [[ $REPLY ]] || scroller -t "---"
+  ) 2> /dev/null & PID=$!; disown
+
+  kill -0 $((PID)) 2> /dev/null || unset PID
+
+done < <(xprop -spy -root _NET_ACTIVE_WINDOW)

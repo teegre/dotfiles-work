@@ -1,0 +1,576 @@
+#! /bin/bash
+VERSION="20210901-1.9.5"
+
+SRCDIR="$HOME/.src"
+UPDATES="$SRCDIR/.updates"
+IGNORED="$SRCDIR/.ignore"
+AURURL="https://aur.archlinux.org"
+AURREQ="rpc?v=5&type=info&arg[]"
+AURPKG="rpc?v=5&type=search&by=name&arg"
+
+__printhelp() {
+
+cat << 'EOB' >&2
+AURPAC - Arch User Repository package management helper
+
+USAGE:
+aurpac option
+aurpac option PACKAGE
+
+OPTIONS:
+-i, install PACKAGE       - install a package.
+-u, update [PACKAGE]      - update an existing package;
+                            if no package is provided, update all packages.
+-m, resume  PACKAGE       - resume package installation.
+-t, restart PACKAGE       - restart installation.
+-c, clone   PACKAGE       - clone repository only.
+-D, remove  PACKAGE       - uninstall package and remove source files.
+-d, remove-source PACKAGE - remove package from source directory.
+-e, clean                 - remove unused files from packages source directories.
+-o, orphans               - print packages present in source directory that are not installed.
+-O, clean-orphans         - remove source directories for packages that are not installed.
+-G, ignore  [PACKAGE]     - ignore upgrades for the given package;
+                            if no package provided, print ignored packages list.
+-g, address PACKAGE       - stop ignoring upgrades for the given package.
+-S, source [PACKAGE]      - print source directory content matching PACKAGE;
+                            if no package provided, display all packages
+                            present in the source directory.
+-s, search PACKAGE        - search a package in the AUR.
+-l, list                  - print all installed AUR packages.
+-k, check                 - check for packages that need an update.
+-n, new                   - print a list of packages that need to be upgraded.
+-C, count                 - number of packages that need an updgrade.
+-p, comp PACKAGE          - print installed package version / current version
+                            and other info.
+-h, help                  - print this help and exit.
+-v, version               - print program version and exit.
+
+EOB
+}
+
+__ERR() {
+  # we don't need colors if executed within a cronjob
+  if [[ $TERM != "dumb" ]]; then
+    local color off
+    off="$(tput sgr0)"
+
+    case "$1" in
+      -l) color="$(tput bold)" ;;
+      -n) color="$(tput setaf 3)" ;;
+      -u) color="$(tput setaf 1)"
+    esac
+
+    >&2 echo -e "${color}aurpac: $2${off}"
+
+  else
+    >&2 echo "aurpac: $2"
+  fi
+}
+
+check_pkg() {
+  case $1 in
+    exist) [[ -d "$SRCDIR/$2" ]] || return 1 ;;
+    build) [[ -f "$SRCDIR/$2/PKGBUILD" ]] || return 1 ;;
+  esac
+}
+
+
+install_pkg() {
+  [[ -z "$1" ]] && {
+    __ERR -u "error: no package provided"
+    __ERR -n "error: type 'aurpac help' for more info"
+    return 1
+  }
+
+  [[ -d "$SRCDIR/$1" ]] && {
+    __ERR -u "error: source already exists for '$1'"
+    __ERR -n "error: try 'aurpac resume  $1' or"
+    __ERR -n "error:     'aurpac restart $1' or"
+    __ERR -n "error:     'aurpac update  $1'"    
+    return 1
+  }
+
+  pushd "$SRCDIR" > /dev/null || return 1
+
+  __ERR -l "downloading package..."
+
+  git clone "$AURURL/$1.git" > /dev/null 2>&1 || {
+    __ERR -u "error: an error occurred."
+    rm -rf "$1"
+    popd > /dev/null || return 1
+    return 1
+  }
+
+  check_pkg build "$1" || {
+    __ERR -u "error: empty repository."
+    rm -rf "$1"
+    popd > /dev/null || return 1
+    return 1
+  }
+
+  __ERR -l "done."
+
+  cd "$1" || return 1
+
+  __ERR -l "building and installing package..."
+
+  makepkg -csi --noconfirm --needed || {
+    [[ $? == 8 ]] && __ERR -u "error: failed to install dependencies."
+    __ERR -u "error: an error occurred."
+    popd > /dev/null || return 1
+    return 1
+  }
+
+  __ERR -l "done."
+    
+  popd > /dev/null || return 1
+
+  pop_package "$1"
+  __ERR -l "$1 installed."
+}
+
+update_all() {
+  local updates pkg
+  [[ -s "$UPDATES" ]] || __ERR -n "nothing to do."
+  mapfile -t updates < "$UPDATES"
+  for pkg in "${updates[@]}"; do
+    pkg="${pkg%% *}"
+    update_pkg "$pkg" || __ERR -u "error: could not update $pkg"
+  done
+}
+
+update_pkg() {
+  [[ -z "$1" ]] && {
+    __ERR -u "error: no package provided"
+    __ERR -n "error: type 'aurpac help' for more info"
+    return 1
+  }
+
+  check_pkg exist "$1" || {
+    __ERR -u "error: package '$1' not found in source directory!"
+    install_pkg "$1" || return 1
+    return 0
+  }
+
+  pushd "$SRCDIR/$1" > /dev/null || return 1
+
+  __ERR -l "updating $1..."
+
+  git config pull.rebase false > /dev/null
+  git pull > /dev/null 2>&1 || {
+    __ERR -u "error: could not get '$1'."
+    popd > /dev/null || return 1
+    return 1
+  }
+
+  __ERR -n "done."
+
+  __ERR -l "buiding and installing $1..."
+
+  makepkg -sirc --noconfirm --needed "$1" || {
+    __ERR -u "error: an error occurred."
+    popd > /dev/null || return 1
+    return 1
+  }
+
+  __ERR -l "done."
+
+  popd > /dev/null || return 1
+
+  pop_package "$1" 2> /dev/null
+  clean "$1"
+  __ERR -l "$1 updated."
+}
+
+get_pkg() {
+  [[ -z "$1" ]] && {
+    __ERR -u "error: no package provided!"
+    __ERR -n "error: try 'aurpac help' for more info."
+    return 1
+  }
+    
+  __ERR -l "downloading '$1'..."
+
+  if check_pkg exist "$1"; then
+    pushd "$SRCDIR/$1" > /dev/null || return 1
+    git config pull.rebase false > /dev/null
+    git pull > /dev/null 2>&1 || {
+      __ERR -u "error: could not get '$1'"
+      popd > /dev/null || return 1
+      return 1
+    }
+
+    __ERR -l "updated existing package."
+
+  else
+    pushd "$SRCDIR" > /dev/null || return 1
+    git clone "$AURURL/$1.git" > /dev/null 2>&1 || {
+      __ERR -u "error: could not get '$1'"
+      rm -rf "$1"
+      popd > /dev/null || return 1
+      return 1
+    }
+
+    check_pkg build "$1" || {
+      __ERR -u "error: empty repository."
+      rm -rf "$1"
+      popd > /dev/null || return 1
+      return 1
+    }
+
+    __ERR -l "done."
+  fi
+
+  popd > /dev/null || return 1
+}
+
+resume_pkg() {
+  [[ -z "$1" ]] && {
+    __ERR -u "error: no package provided"
+    __ERR -n "error: type 'aurpac help' for more info"
+    return 1
+  }
+
+  check_pkg build "$1" || {
+    __ERR -u "error: package '$1' not found in source directory!"
+    return 1
+  }
+
+  pushd "$SRCDIR/$1" > /dev/null || return 1
+
+  if [[ "$2" == "--restart" ]]; then
+    __ERR -l "restarting '$1' installation..."
+    rm ./*.part 2> /dev/null
+  else
+    __ERR -l "resuming '$1' installation..."
+  fi
+
+  makepkg -si --noconfirm --needed || {
+    __ERR -u "error: an error occurred."
+    popd > /dev/null || return 1
+    return 1
+  }
+
+  __ERR -l "done."
+
+  popd > /dev/null || return 1
+
+  pop_package "$1"
+  __ERR -l "$1 installed."
+}
+
+remove_pkg() {
+  [[ -z "$1" ]] && {
+    __ERR -u "error: no package provided"
+    __ERR -n "error: type 'aurpac help' for more info"
+    return 1
+  }
+
+  if sudo pacman -Rns "$1"; then
+    __ERR -l "uninstalled '$1'."
+    pop_package "$1" 2> /dev/null
+    pop_package "$1" --ignored 2> /dev/null
+    remove_src "$1" 2> /dev/null
+  else
+    __ERR -l "aborted."
+    return 1
+  fi
+}
+
+remove_src() {
+  [[ -z "$1" ]] && {
+    __ERR -u "error: no package provided"
+    __ERR -n "error: type 'aurpac help' for more info"
+    return 1
+  }
+
+  check_pkg exist "$1" || {
+    __ERR -u "error: package '$1' not found in source directory!"
+    return 1
+  }
+        
+  rm -rf "${SRCDIR:?}/$1" 2> /dev/null || {
+    __ERR -u "cannot remove '$1'"
+    return 1
+  }
+
+  __ERR -l "removed '$1' from source."
+  pop_package "$1" --ignored 2> /dev/null
+  pop_package "$1" 2> /dev/null
+}
+
+clean() {
+  declare -A __o
+  local count f1 f2 filename size
+
+  case $1 in
+    --orphans      ) shift; __o[o]=1; __ERR -l "searching for packages..." ;;
+    --clean-orphans) shift; __o[c]=1; __ERR -l "searching for packages..."
+  esac
+
+  [[ $1 ]] && {
+    local pkg
+    pkg="/$1"
+  }
+
+  size="$(LC_ALL=C du -hs "$SRCDIR" | cut -f 1)"
+  for f1 in "${SRCDIR}"/*; do
+    if [[ $pkg ]]; then [[ $f1 == "${SRCDIR}${pkg}" ]] || continue; fi
+    filename="${f1##*/}"
+    pacman -Qm | grep "$filename" > /dev/null || {
+      if [[ ${__o[o]} ]]; then
+        __ERR -l "$filename"
+        ((count++))
+        continue
+      elif [[ ${__o[c]} ]]; then
+        __ERR -n "removing $filename source directory..."
+        remove_src "$filename"
+        ((count++))
+        continue
+      else
+        __ERR -l "skipping: $filename is not installed."
+        continue
+      fi
+    }
+    [[ ${__o[*]} ]] || {
+      [[ -d $f1 ]] || continue
+      local fcount=0
+      for f2 in "$f1"/*; do
+        filename="${f2##*/}"
+        [[ ${filename:0:1} == "." ]] && continue
+        [[ $filename == "PKGBUILD" ]] && continue
+        [[ $filename == *.install ]] && continue
+        rm -rf "$f2" && ((fcount++)) && ((count++))
+      done
+      ((fcount>0)) && __ERR -n "cleaned ${f1##*/}."
+      
+    }
+  done
+  [[ ${__o[c]} || ! ${__o[*]} ]] && ((count==0)) && __ERR -n "nothing to do."
+  [[ ${__o[o]} ]] && ((count==0)) && __ERR -n "nothing found."
+  ((count>0)) && {
+    __ERR -n "source directory size before cleaning: $size"
+    size="$(LC_ALL=C du -hs "$SRCDIR" | cut -f 1)"
+    __ERR -n "source directory size after cleaning:  $size"
+  }
+  unset __o
+}
+
+ignore_pkg() {
+  [[ -z "$1" ]] && {
+    cat "$IGNORED" 2> /dev/null || __ERR "no ignored package."
+    return 0
+  }
+
+  pacman -Qm | grep "$1" > /dev/null || {
+    __ERR -u "error: package '$1' is not installed."
+    return 1
+  }
+
+  ! __is_in_file "$IGNORED" "$1" && {
+    echo "$1" >> "$IGNORED"
+    pop_package "$1"
+    __ERR -n "'$1' has been ignored."
+    return 0
+  }
+  __ERR -n "'$1' already ignored."
+  return 1
+}
+
+address_pkg() {
+  [[ -z "$1" ]] && {
+    __ERR -u "error: no package provided."
+    __ERR -n "error: type 'aurpac help' for more info."
+    return 1
+  }
+
+  pop_package "$1" --ignored
+}
+
+search_pkg() {
+  [[ -z "$1" ]] && {
+    __ERR -u "error: no package provided"
+    __ERR -n "error: try 'aurpac help' for more info"
+  }
+
+  local URL="$AURURL/$AURPKG=$1"
+  local resc res name ver desc
+    
+  res="$(curl --silent "$URL")"
+  resc="$(jq '.resultcount' <<< "$res")"
+
+  [[ "$resc" -eq 0 ]] && {
+    __ERR -u "error: no package found."
+    return 1
+  }
+
+  for((i=0;i<resc;i++)) {
+    name="$(jq -r ".results[$i].Name" <<< "$res")"
+    desc="$(jq -r ".results[$i].Description" <<< "$res")"
+    ver="$(jq -r ".results[$i].Version" <<< "$res")"
+    printf "%s %s\n---- %s\n" "$name" "$ver" "$desc"
+  }
+}
+
+upgrade_list() {
+  local URL="$AURURL/$AURREQ"
+
+  if [[ -f "$IGNORED" ]]; then
+    mapfile -t ignored < "$IGNORED"
+    is_ignored() {
+      local pkg
+      for pkg in "${ignored[@]}"; do
+        [[ "$1" == "$pkg" ]] && return 0
+      done
+      return 1
+    }
+  else
+    is_ignored() { return 1; }
+  fi
+
+  local pkg line
+
+  [[ -a $UPDATES ]] && {
+    while read -r line; do
+      pkg="${line// *}"
+      pacman -Qm | grep "$pkg" > /dev/null || {
+        pop_package "$pkg"
+        pop_package "$pkg" --ignored
+      }
+    done < "$UPDATES"
+  }
+
+  local ver res new lmd error
+  error=0
+
+  __ERR -l "now checking for updates..."
+
+  while read -r line; do
+    pkg="${line// *}" # current package
+    ver="${line//* }" # current version
+    res="$(curl --silent "$URL=$pkg")" || { error=1; break; } # retrieve info about package
+    new="$(jq -r '.results[0].Version' <<< "$res")" # version
+    lmd="$(jq '.results[0].LastModified' <<< "$res")" # last modification date
+    lmd="$(date --date "@$lmd" "+%F" 2> /dev/null)" # human readable date
+    lmd="${lmd:-"-"}"
+    [[  "$new" > "$ver" || "${#new}" -gt "${#ver}" ]] && {
+      [[ $new == "null" ]] && __ERR -n "warning: $pkg is no longer available in the AUR."
+      if is_ignored "$pkg"; then __ERR -n "warning: $pkg ignored [$ver → $new ($lmd)]"
+      else printf '%-25s %15s → %-15s [%s]\n' "$pkg" "$ver" "$new" "$lmd" >> "$UPDATES".tmp
+      fi
+    }
+    # sleep 0.25
+  done < <(pacman -Qm)
+
+  [[ $error == 0 ]] && {
+    [[ -a "$UPDATES".tmp ]] && mv "$UPDATES".tmp "$UPDATES"
+    cat "$UPDATES" >&2
+    __ERR -l "$(upgrade_count) package(s) to upgrade."
+    return 0
+  }
+
+  [[ -a "$UPDATES".tmp ]] && rm "$UPDATES".tmp
+    __ERR -u "error: unable to check for updates."
+    return 1
+}
+
+upgrade_count() {
+  [[ -a "$UPDATES" ]] && {
+    wc -l < "$UPDATES"
+    return 0
+  }
+  echo 0
+}
+
+__is_in_file() {
+  local FILE STR line
+  FILE="$1"
+  STR="$2"
+  while read -r line; do
+    [[ $line =~ ^$STR.* ]] && return 0
+  done < "$FILE"
+  return 1
+}
+
+pop_package() {
+  local FILE PKG line
+  if [[ $2 == "--ignored" ]]; then FILE="$IGNORED"; else FILE="$UPDATES"; fi
+  PKG="$1"
+  __is_in_file "$FILE" "$PKG" && {
+    [[ $2 ]] && sed -i "/^$PKG$/d"   "$FILE"
+    [[ $2 ]] || sed -i "/^$PKG.*/d" "$FILE"
+    [[ $2 ]] && __ERR -n "'$PKG' removed from ignored packages list."
+    return 0
+  }
+
+  [[ $2 ]] && __ERR -u "error: package '$PKG' not found."
+  return 1
+}
+
+compare_ver() {
+  [[ -z "$1" ]] && {
+    __ERR -u "error: no package provided"
+    __ERR -n "error: type 'aurpac help' for more info"
+    return 1
+  }
+
+  local URL="$AURURL/$AURREQ"
+
+  local pkg ver res new lmd
+  local pkg_count=0
+  local err=0
+
+  while read -r line; do
+    pkg="${line// *}"
+    ver="${line//* }"
+    res="$(curl --silent "$URL=$pkg")"
+    new="$(jq -r '.results[0].Version' <<< "$res")"
+    lmd="$(jq '.results[0].LastModified' <<< "$res")"
+    lmd="$(date --date "@$lmd" "+%F")"
+
+    if [[ -n "$res" ]]; then
+      echo "> $pkg info:"
+      if check_pkg build "$pkg"; then echo "  → package found in source directory"
+      else echo "  → package NOT found in source directory"
+      fi
+      echo "  - installed version: $ver"
+      echo "  - current version:   $new [$lmd]"
+      ((pkg_count++))
+    else
+      __ERR -u " error: could not retrieve '$pkg'"
+      ((err++))
+    fi
+  done < <(pacman -Qm | grep -F "$1")
+
+  [[ "$pkg_count" -eq 0 ]] && __ERR -u "error: no package found"
+  [[ "$err" -gt 0 ]] && return 1 || return 0
+}
+
+! [[ -d "$SRCDIR" ]] && mkdir "$SRCDIR"
+
+case "$1" in
+  -i | install      ) install_pkg "$2" ;;
+  -u | update       ) [[ $2 ]] || update_all; [[ $2 ]] && update_pkg "$2";;
+  -m | resume       ) resume_pkg "$2" ;;
+  -t | restart      ) resume_pkg "$2" --restart ;;
+  -c | clone        ) get_pkg "$2" ;;
+  -D | remove       ) remove_pkg "$2" ;;
+  -d | remove-source) remove_src "$2" ;;
+  -e | clean        ) clean "$2" ;;
+  -o | orphans      ) clean --orphans ;;
+  -O | clean-orphans) clean --clean-orphans ;;
+  -G | ignore       ) ignore_pkg "$2" ;;
+  -g | address      ) address_pkg "$2" ;;
+  -S | source       ) find "$SRCDIR" -mindepth 1 -maxdepth 1 -name "${2:-"*"}" -type d | sort | less -F ;;
+  -s | search       ) search_pkg "$2" ;;
+  -l | list         ) pacman -Qm | less -F ;;
+  -k | check        ) upgrade_list ;;
+  -n | new          ) cat "$UPDATES" ;;
+  -C | count        ) upgrade_count ;;
+  -p | comp         ) compare_ver "$2" ;;
+  -h | help         ) __printhelp ;;
+  -v | version      ) echo "AURPAC version $VERSION" ;;
+  debug             ) echo "AURPAC debug mode"; shift; "$@" ;; #2> /dev/null || __ERR -n "an error occurred." ;;
+  ""                ) echo -e "AURPAC $VERSION - AUR helper\ntry 'aurpac help'" ;;
+  *                 ) __ERR -l "invalid option '$1'.\ntry 'aurpac help' for more info"
+esac

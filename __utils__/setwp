@@ -1,0 +1,41 @@
+#! /usr/bin/env bash
+# usage setwp imagefile
+
+WP="$HOME/.config/wallpaper.jpg"
+#LS="$HOME/.config/lockscreen.png"
+
+if [ -z "$DISPLAY" ] && [ -n "$XDG_VTNR" ] && [ "$XDG_VTNR" -ne 1 ]; then
+  wal -R
+  exit 0
+fi
+
+if [[ -n $1 ]]; then
+  notify-send "Setting wallpaper"
+  rm "$WP"
+  #res=$(xdpyinfo | grep dimensions | sed -r 's/^[^0-9]*([0-9]+x[0-9]+).*$/\1/')
+  convert "$1" "$WP"
+  feh --bg-fill "$WP"
+  wal -q -i "$1" -n
+#  notify-send "Generating lockscreen wallpaper..."
+#  convert "$WP"             \
+#	  -scale 1%         \
+#	  -scale 100%       \
+#	  -resize "$res""^" \
+#	  -filter Gaussian  \
+#	  -gravity center   \
+#	  -extent "$res"    \
+#	  "$LS"
+  hc-merge
+  wait
+  dunst-merge
+# notify-send "Generating theme..."
+#  /opt/oomox/plugins/theme_oomox/gtk-theme/change_color.sh \
+#	  ~/.cache/wal/colors-oomox 2>/dev/null
+  notify-send "Wallpaper set"
+else
+  feh --bg-fill "$WP"
+  wal -Rq
+	hc-merge
+  wait
+	dunst-merge
+fi

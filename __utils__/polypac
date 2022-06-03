@@ -1,0 +1,14 @@
+#! /usr/bin/env bash
+# 
+hf="$(xgetres color3)"
+nf="$(xgetres color8)"
+pac="$(pacman -Qu 2> /dev/null | wc -l)"
+aur="$(aurpac count)"
+# shellcheck disable=SC2012
+# eml="$(ls "$HOME/Mail/me/INBOX/new" | wc -l)"
+
+if ((pac==0)); then pac="--"; elif ((pac>9)); then pac="%{F$hf}9+%{F$nf}"; fi
+if ((aur==0)); then aur="--"; elif ((aur>9)); then aur="%{F$hf}9+%{F$nf}"; fi
+# if ((eml==0)); then eml="--"; elif ((eml>9)); then eml="%{F$hf}9+%{F$nf}"; fi
+
+printf "  %02s-%02s\n" "${pac}" "${aur}"

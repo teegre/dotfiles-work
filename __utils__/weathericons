@@ -1,0 +1,104 @@
+#! /usr/bin/python
+# _*_ coding:utf-8 _*_
+#      ☀ ☽ ☾ 望摒歹
+import sys
+from sys import stdout
+import urllib.request
+from html.parser import HTMLParser
+
+# Website url to retrieve weather info.
+url = 'http://rss.accuweather.com/rss/liveweather_rss.asp?metric={}&locCode="{}"'
+
+# Used to determine whether it's daytime or not.
+# icon files which name starts with a number between 33 and 44 means it's night.
+icon_pattern = '<img src="http://vortex.accuweather.com/phoenix2/images/common/icons/'
+
+icons = {
+            'sun':   '',
+            'moon':  '望',
+            'cloud': '摒',
+            'rain':  '歹',
+            'storm': '',
+            'snow': '',
+            'ice': '',
+            'flurries': '流',
+            'wind':  '煮',
+            'fog':   '敖'
+}
+
+class Parser(HTMLParser):
+    def __init__(self):
+        HTMLParser.__init__(self)
+        self.full_weather = ''
+        self.city = ''
+        self.weather = ''
+        self.temperature = 0
+        self.day_night = icons['sun']
+        self.text_weather = ''
+
+    def handle_data(self, data):
+        if data.startswith('Currently:'):
+            w = data.split(': ')
+            self.full_weather = w[1]
+            self.text_weather = w[1].lower()
+            self.temperature = w[2][:-1]+'°'+w[2][-1]
+
+        if data.startswith('Currently in'):
+            self.city = data.split('Currently in ')[1].split(':')[0]
+            img_index = int(data.split('_')[0][-2:])
+            if img_index >= 33 and img_index <= 44:
+                self.day_night = icons['moon']
+
+    def set_icons(self):
+        if self.text_weather.find('clear') != -1: self.weather = self.day_night
+        if self.text_weather.find('cloudy') != -1: self.weather = icons['cloud']
+        if self.text_weather.find('intermittent clouds') != -1: self.weather = self.day_night + icons['cloud']
+        if self.text_weather.find('partly cloudy') != -1: self.weather = self.day_night + icons['cloud']
+        if self.text_weather.find('mostly cloudy') != -1: self.weather = self.day_night + icons['cloud'] 
+        if self.text_weather.find('partly sunny') != -1: self.weather = icons['cloud']
+        if self.text_weather.find('rain') != -1: self.weather += icons['rain']
+        if self.text_weather.find('showers') != -1: self.weather += icons['rain']
+        if self.text_weather.find('wind') != -1: self.weather += icons['wind']
+        if self.text_weather.find('snow') != -1: self.weather += icons['snow']
+        if self.text_weather.find('ice') != -1: self.weather += icons['ice']
+        if self.text_weather.find('flurries') != -1: self.weather += icons['flurries']
+        if self.text_weather.find('fog') != -1: self.weather += icons['fog']
+        if self.text_weather.find('storm') != -1: self.weather += icons['storm']
+        if self.text_weather.find('sun') != -1: self.weather += self.day_night
+
+if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser(description='Display current weather and temperature.')
+    parser.add_argument(
+            '-M', '--metric',
+            type=int,
+            help='Metric: 0 for Farenheit, 1 for Celsius.',
+            choices=[0, 1],
+            default=1
+    )
+    parser.add_argument(
+            '-L', '--location',
+            help='Location: city name.',
+            metavar='location',
+            type=str
+    )
+    args = parser.parse_args()
+    metric = args.metric
+    location = args.location
+
+    if location is None:
+        parser.print_help()
+        sys.exit(33)
+
+    location = location.replace(' ', '-')
+
+    try:
+        with urllib.request.urlopen(url.format(metric, location)) as response:
+            html = response.read()
+            htmlparser = Parser()
+            htmlparser.feed(html.decode())
+            htmlparser.set_icons()
+            print(htmlparser.weather, htmlparser.temperature)
+            # print(htmlparser.city, htmlparser.full_weather)
+    except Exception as e:
+        sys.exit(33)
