@@ -1,2 +1,3 @@
-indent-after-paren=2
+[FORMAT]
 indent-string='  '
+indent-after-paren=2
