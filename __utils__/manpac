@@ -1,5 +1,5 @@
 #! /bin/env bash
-VERSION="20211225-1.3.9"
+VERSION="20220615-1.4.0"
 
 __printhelp() {
 
@@ -18,6 +18,7 @@ download            - download new package (no installation)
 files   PACKAGE     - print files from a given package
 pkg     FILE        - print which package holds FILE
 install PACKAGE(S)  - install packages
+local PACKAGE(S)    - install local packages
 search  PACKAGE     - search the database for a given package
 lscache [SEARCHSTR] - print cache directory content for file matching SEARCHSTR
 new                 - print packages that need an upgrade
@@ -71,6 +72,7 @@ case $1 in
   files   ) pacman -Ql "$2" | less -F ;;
   pkg     ) pacman -Qo "$2" ;;
   install ) shift; sudo pacman -S $* ;;
+  local   ) shift; sudo pacman -U $* ;;
   search  ) pacman -Ss "$2" | less -F ;;
   lscache ) lscache "$2" ;;
   new     ) pacman -Qu | less -F ;;
