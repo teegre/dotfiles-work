@@ -1,0 +1,2 @@
+#! /usr/bin/env sh
+ping -c3 tigerfunk.tk

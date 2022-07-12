@@ -1,2 +1,2 @@
 #! /usr/bin/env sh
-mysqldump -u admin -p records > ~/projets/MSDIW22091/9_symfony/records/public/src/records.sql
+mysqldump -u admin -p "$1" > "$2"

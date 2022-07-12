@@ -1,2 +1,2 @@
 #! /usr/bin/env sh
-bigtime -dqs --file digits -F1
+bigtime -dqs --file simple -F1

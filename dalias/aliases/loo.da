@@ -1,0 +1,2 @@
+#! /usr/bin/env sh
+wine /home/stephane/downloads/Looping/Looping.exe "$@"

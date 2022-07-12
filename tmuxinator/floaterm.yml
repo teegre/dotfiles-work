@@ -47,5 +47,5 @@ root: ~/
 windows:
   - float: nf
   - files: nnn -d
-  - php: nf
-  - django: cd ~/projets/MSDIW22091/A_django/locallibrary; clear; ma runserver 8080
+  - mixer: pulsemixer
+  - django: cd ~/projets/tigerfunk.tk/tigerfunk; source ../venv/bin/activate

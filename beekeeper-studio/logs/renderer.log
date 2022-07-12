@@ -955,3 +955,80 @@ join artist on disc.artist_id = artist.artist_id' at line 1
     at b.dispatch (app://./js/chunk-vendors.1d55ef3c.js:2433:7846)
     at b.dispatch (app://./js/chunk-vendors.1d55ef3c.js:2433:3990)
     at submit (app://./js/app.11307514.js:1:377049)
+[2022-06-13 14:31:55.505] [error] (ConnectionInterface) Error: connect ECONNREFUSED 127.0.0.1:3306
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)
+[2022-06-13 14:32:25.691] [error] (ConnectionInterface) Error: connect ECONNREFUSED 127.0.0.1:3306
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)
+[2022-06-13 14:33:32.409] [error] (ConnectionInterface) Error: connect ECONNREFUSED 127.0.0.1:3306
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)
+[2022-06-13 14:44:29.318] [error] (ConnectionInterface) Error: connect ECONNREFUSED 127.0.0.1:3306
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)
+[2022-06-13 14:44:33.433] [error] (ConnectionInterface) Error: connect ECONNREFUSED 127.0.0.1:3306
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)
+[2022-06-13 14:45:07.101] [error] (ConnectionInterface) Error: connect ECONNREFUSED 127.0.0.1:3306
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)
+[2022-06-13 14:45:38.557] [error] (ConnectionInterface) Error: connect ECONNREFUSED 127.0.0.1:3306
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)
+[2022-06-13 14:46:26.342] [error] (ConnectionInterface) Error: connect ECONNREFUSED 127.0.0.1:3306
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)
+[2022-06-13 14:46:30.308] [error] (ConnectionInterface) Error: connect ECONNREFUSED 127.0.0.1:3306
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)
+[2022-06-13 14:46:34.281] [error] (ConnectionInterface) Error: connect ECONNREFUSED 127.0.0.1:3306
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)
+[2022-06-13 14:46:50.076] [error] (ConnectionInterface) Error: connect ECONNREFUSED 127.0.0.1:3306
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)
+[2022-06-13 14:47:07.732] [error] (ConnectionInterface) Error: connect ECONNREFUSED 127.0.0.1:3306
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)
+[2022-06-13 14:47:23.079] [error] (ConnectionInterface) Error: connect ECONNREFUSED 127.0.0.1:3306
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)
+[2022-06-13 14:50:19.960] [error] (ConnectionInterface) Error: connect ECONNREFUSED 127.0.0.1:3306
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)
+[2022-06-13 14:52:06.630] [error] (ConnectionInterface) Error: connect ECONNREFUSED 127.0.0.1:3306
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)
+[2022-06-13 14:55:53.322] [error] (ConnectionInterface) Error: connect ECONNREFUSED 127.0.0.1:3306
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)
+[2022-06-13 15:01:40.257] [error] (ConnectionInterface) Error: connect ECONNREFUSED 127.0.0.1:3306
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)
+[2022-06-13 15:01:56.892] [error] (ConnectionInterface) Error: connect ECONNREFUSED 127.0.0.1:3306
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)
+[2022-06-14 15:19:19.102] [error] (ConnectionInterface) Error: connect ECONNREFUSED 127.0.0.1:3306
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)
+[2022-06-14 15:24:32.366] [error] (ConnectionInterface) Error: connect ECONNREFUSED 127.0.0.1:3306
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)
+[2022-06-14 15:31:52.292] [error] (ConnectionInterface) Error: connect ECONNREFUSED 127.0.0.1:3306
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)
+[2022-06-14 15:33:54.015] [error] (ConnectionInterface) Error: connect ECONNREFUSED 127.0.0.1:3306
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1146:16)
+[2022-06-14 16:38:42.568] [error] (mysql)               query exception:  Error: Field 'gro_num' doesn't have a default value
+    at Packet.asError (/opt/Beekeeper Studio/resources/app.asar/node_modules/mysql2/lib/packets/packet.js:728:17)
+    at Query.execute (/opt/Beekeeper Studio/resources/app.asar/node_modules/mysql2/lib/commands/command.js:29:26)
+    at PoolConnection.handlePacket (/opt/Beekeeper Studio/resources/app.asar/node_modules/mysql2/lib/connection.js:456:32)
+    at PacketParser.onPacket (/opt/Beekeeper Studio/resources/app.asar/node_modules/mysql2/lib/connection.js:85:12)
+    at PacketParser.executeStart (/opt/Beekeeper Studio/resources/app.asar/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/opt/Beekeeper Studio/resources/app.asar/node_modules/mysql2/lib/connection.js:92:25)
+    at Socket.emit (events.js:315:20)
+    at addChunk (internal/streams/readable.js:309:12)
+    at readableAddChunk (internal/streams/readable.js:284:9)
+    at Socket.Readable.push (internal/streams/readable.js:223:10)
+[2022-06-30 10:44:22.229] [error] (query-editor)        SqliteError: near "group": syntax error
+    at Database.prepare (/opt/Beekeeper Studio/resources/app.asar/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at app://./js/app.11307514.js:1:290556
+    at new Promise (<anonymous>)
+    at a (app://./js/app.11307514.js:1:290492)
+    at n (app://./js/app.11307514.js:1:290757)
+    at Bh (app://./js/app.11307514.js:1:290837)
+    at ph (app://./js/app.11307514.js:1:286327)
+    at app://./js/app.11307514.js:1:285199
+    at zh (app://./js/app.11307514.js:1:290940)
+    at Object.execute (app://./js/app.11307514.js:1:285162)
+[2022-06-30 11:46:56.163] [error] (query-editor)        SqliteError: no such column: tag_id
+    at Database.prepare (/opt/Beekeeper Studio/resources/app.asar/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21)
+    at app://./js/app.11307514.js:1:290556
+    at new Promise (<anonymous>)
+    at a (app://./js/app.11307514.js:1:290492)
+    at n (app://./js/app.11307514.js:1:290757)
+    at Bh (app://./js/app.11307514.js:1:290837)
+    at ph (app://./js/app.11307514.js:1:286327)
+    at app://./js/app.11307514.js:1:285199
+    at zh (app://./js/app.11307514.js:1:290940)
+    at Object.execute (app://./js/app.11307514.js:1:285162)

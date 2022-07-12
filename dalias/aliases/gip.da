@@ -1,2 +1,2 @@
 #! /usr/bin/env sh
-xclip -sel clip ~/.token && git push "$@" && xclip -sel clip /dev/null
+xclip -sel clip ~/.token > /dev/null && git push "$@" && xclip -sel clip /dev/null

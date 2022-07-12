@@ -41,6 +41,8 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'lervag/vimtex'
 Plug 'mhinz/neovim-remote'
 Plug 'nelsyeung/twig.vim'
+Plug 'dolfly/plantuml'
+Plug 'aklt/plantuml-syntax'
 Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 
 call plug#end()
@@ -69,6 +71,8 @@ function! s:check_back_space() abort
 endfunction
 
 set autoread
+
+au BufRead,BufNewFile *.pow set filetype=pow
 
 au FocusGained,BufEnter * checktime
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -168,6 +172,7 @@ let g:currentmode={
   \ 'rm' : 'MORE',
   \ 'r?' : 'CONFIRM',
   \ '!'  : 'SHELL',
+  \ 't'  : 'TERMINAL'
   \}
 
 set statusline=%#Todo#
