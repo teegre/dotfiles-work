@@ -1,3 +1,7 @@
 [FORMAT]
 indent-string='  '
 indent-after-paren=2
+
+[MAIN]
+load-plugins=pylint_django
+

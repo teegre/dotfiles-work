@@ -1,0 +1,48 @@
+{
+  "clientId": "6689c27c-51c9-4d5c-93c9-0b3bd7b930d6",
+  "userId": "1141372109241949591",
+  "authedUserIDs": [
+    "1141372109241949591"
+  ],
+  "app": {
+    "logLevel": 1,
+    "enableColorSpaceSrgb": false,
+    "visibleNewProjectBtn": true,
+    "useZenity": false,
+    "disableThemes": false,
+    "panelHeight": 40,
+    "saveLastOpenedTabs": true,
+    "exportDir": "/home/stephane/Pictures/Figma",
+    "fontDirs": [
+      "/usr/share/fonts",
+      "/usr/local/share/fonts",
+      "/run/host/fonts",
+      "/run/host/user-fonts",
+      "/home/stephane/.local/share/fonts"
+    ],
+    "lastOpenedTabs": [
+      {
+        "title": "Untitled",
+        "url": "https://www.figma.com/file/O8LnvToeQ8auPrYZZ0xnir/Untitled?frame-preset-name=Desktop"
+      }
+    ],
+    "featureFlags": {
+      "comments_on_the_canvas": true,
+      "desktop_always_preload": true,
+      "desktop_disable_cs_prompt": true,
+      "desktop_menu_unification_rollout": true,
+      "desktop_bell_feed_rollout": true,
+      "figjam_miro_import": true,
+      "paste_to_replace": true,
+      "vector_menu_after_arrange": true,
+      "voice_captions_enabled": true,
+      "use_freetype": true
+    },
+    "savedExtensions": []
+  },
+  "theme": {},
+  "ui": {
+    "scalePanel": 1,
+    "scaleFigmaUI": 1
+  }
+}

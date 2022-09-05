@@ -1,0 +1,2 @@
+#! /usr/bin/env sh
+clear; ma runserver "${1:-8080}"

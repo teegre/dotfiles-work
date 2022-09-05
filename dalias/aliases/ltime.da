@@ -1,2 +1,2 @@
 #! /usr/bin/env sh
-bigtime --file digits -dNrS
+bigtime --file simple -dNqrS

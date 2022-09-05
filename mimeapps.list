@@ -1,2 +1,5 @@
 [Added Associations]
 text/html=firefox.desktop;
+
+[Default Applications]
+x-scheme-handler/figma=figma-linux.desktop

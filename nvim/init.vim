@@ -33,10 +33,16 @@ syntax on
 
 call plug#begin('~/.vim/plugged')
  
+Plug 'mhinz/vim-startify'
+Plug 'itchyny/lightline.vim'
+Plug 'savq/melange'
 Plug 'kien/ctrlp.vim'
 Plug 'vim-syntastic/syntastic'
 Plug 'tpope/vim-surround'
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': 'yarn install --frozen-lockfile'}
+Plug 'tpope/vim-fugitive'
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'prabirshrestha/vim-lsp'
+Plug 'neovim/nvim-lspconfig'
 Plug 'jiangmiao/auto-pairs'
 Plug 'lervag/vimtex'
 Plug 'mhinz/neovim-remote'
@@ -47,28 +53,48 @@ Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 
 call plug#end()
 
+if (has('termguicolors'))
+  set termguicolors
+endif
+
+colorscheme melange
+
+let g:startify_custom_header =
+      \ startify#pad(split(system('figlet -f DOS\ Rebel neovim'), '\n'))
+
+let g:lightline = {
+      \ 'colorscheme': 'molokai',
+      \ }
+
+let g:chadtree_settings = {
+      \ 'theme.text_colour_set': 'nord',
+      \  }
+
+let g:coc_global_extensions = ['coc-phpls', 'coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-jedi']
+
+let g:python3_host_prog = '/home/stephane/pynvim/bin/python'
+
 let g:ctrlp_map = '<leader>p'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'ra'
-let g:tidal_target = "terminal"
-
-let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier']
 
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_compiler_method = 'latexmk'
 let g:vimtex_compiler_progname = 'nvr'
 
-inoremap <silent><expr> <tab>
-	\ pumvisible() ? "\<C-n>" :
-	\ <SID>check_back_space() ? "\<tab>" :
-	\ coc#refresh()
-inoremap <expr><s-tab> pumvisible() ? "\<c-p>" : "\<c-h>"
-
-
 function! s:check_back_space() abort
 	let col = col('.') - 1
 	return !col || getline('.')[col - 1] =~# '\s'
 endfunction
+
+inoremap <silent><expr> <TAB>
+	\ coc#pum#visible() ? coc#pum#next(1):
+	\ CheckBackSpace() ? "\<Tab>" :
+	\ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+inoremap <expr><cr> coc#pum#visible() ? coc#_select_confirm() : "\<cr>"
+inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() :
+      \ "\<c-g>u\<cr>\<c-r>=coc#on_enter() \<cr>"
 
 set autoread
 
@@ -145,52 +171,52 @@ endfunction
 nnoremap <expr>K getline('.')[col('.')-1] == ' ' ? "r<cr>" : "i<cr><esc>"
 
 " status line
-highlight StatusLine ctermfg=232 ctermbg=240
-highlight Todo cterm=bold ctermbg=52 ctermfg=0
-highlight DiffText ctermbg=240 ctermfg=232
+" highlight StatusLine ctermfg=232 ctermbg=240
+" highlight Todo cterm=bold ctermbg=52 ctermfg=0
+" highlight DiffText ctermbg=240 ctermfg=232
 
-set ruler
-set laststatus=2
+" set ruler
+" set laststatus=2
 set noshowmode
 set noshowcmd
 
-let g:currentmode={
-  \ 'n'  : 'NORMAL',
-  \ 'no' : 'N-OP-PENDING',
-  \ 'i'  : 'INSERT',
-  \ 'R'  : 'RPLACE',
-  \ 'v'  : 'VISUAL',
-  \ 'V'  : 'V-LINE',
-  \ '' : 'V-BLOCK',
-  \ 's'  : 'SELECT',
-  \ 'S'  : 'S-LINE',
-  \ '?'  : 'S-BLOCK',
-  \ 'c'  : 'COMMAND',
-  \ 'cv' : 'VIM-EX',
-  \ 'ce' : 'EX',
-  \ 'r'  : 'PROMPT',
-  \ 'rm' : 'MORE',
-  \ 'r?' : 'CONFIRM',
-  \ '!'  : 'SHELL',
-  \ 't'  : 'TERMINAL'
-  \}
+" let g:currentmode={
+"   \ 'n'  : 'NORMAL',
+"   \ 'no' : 'N-OP-PENDING',
+"   \ 'i'  : 'INSERT',
+"   \ 'R'  : 'RPLACE',
+"   \ 'v'  : 'VISUAL',
+"   \ 'V'  : 'V-LINE',
+"   \ '' : 'V-BLOCK',
+"   \ 's'  : 'SELECT',
+"   \ 'S'  : 'S-LINE',
+"   \ '?'  : 'S-BLOCK',
+"   \ 'c'  : 'COMMAND',
+"   \ 'cv' : 'VIM-EX',
+"   \ 'ce' : 'EX',
+"   \ 'r'  : 'PROMPT',
+"   \ 'rm' : 'MORE',
+"   \ 'r?' : 'CONFIRM',
+"   \ '!'  : 'SHELL',
+"   \ 't'  : 'TERMINAL'
+"   \}
 
-set statusline=%#Todo#
-set statusline+=\ %{g:currentmode[mode()]} "MODE
-set statusline+=\ 
-set statusline+=%#DiffText#
-set statusline+=\ %Y                       "FILE TYPE
-set statusline+=\ 
-set statusline+=%#StatusLine#
-set statusline+=\ %t                       "FILENAME
-set statusline+=\ %m                       "MODIFIED FLAG
-set statusline+=\ 
-set statusline+=%R                         "READ-ONLY FLAG
-set statusline+=%=
+" set statusline=%#Todo#
+" set statusline+=\ %{g:currentmode[mode()]} "MODE
+" set statusline+=\ 
+" set statusline+=%#DiffText#
+" set statusline+=\ %Y                       "FILE TYPE
+" set statusline+=\ 
+" set statusline+=%#StatusLine#
+" set statusline+=\ %t                       "FILENAME
+" set statusline+=\ %m                       "MODIFIED FLAG
+" set statusline+=\ 
+" set statusline+=%R                         "READ-ONLY FLAG
+" set statusline+=%=
 " set statusline+=<%{GetCharAtCursor()}>
-set statusline+=%k
-set statusline+=\ %3l:%-2c                 "LINE:COL
-set statusline+=\ %3p%%                    "PERCENTAGE
+" set statusline+=%k
+" set statusline+=\ %3l:%-2c                 "LINE:COL
+" set statusline+=\ %3p%%                    "PERCENTAGE
 
-set shortmess=
-set shortmess+=F
+" set shortmess=
+" set shortmess+=F

@@ -84,6 +84,7 @@ hc keybind $Mod-Shift-r     reload
 hc keybind $Mod-Shift-q     close
 hc keybind $Mod-Return      spawn "${TERMINAL:-xterm}" # use your $TERMINAL with xterm as fallback
 hc keybind $Mod-Control-Return spawn firefox
+hc keybind $Mod-Shift-Return spawn cool-retro-term
 
 # dunst
 hc keybind Control-space    spawn dunstctl close

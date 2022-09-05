@@ -1032,3 +1032,44 @@ join artist on disc.artist_id = artist.artist_id' at line 1
     at app://./js/app.11307514.js:1:285199
     at zh (app://./js/app.11307514.js:1:290940)
     at Object.execute (app://./js/app.11307514.js:1:285162)
+[2022-08-29 16:41:06.041] [error] (mysql)               Connection fatal error "Error: read ECONNRESET\n    at TCP.onStreamRead (internal/stream_base_commons.js:209:20)"
+[2022-08-29 16:41:06.067] [error] (mysql)               Connection fatal error "Error: read ECONNRESET\n    at TCP.onStreamRead (internal/stream_base_commons.js:209:20)"
+[2022-08-29 16:41:06.067] [error] (mysql)               Connection fatal error "Error: read ECONNRESET\n    at TCP.onStreamRead (internal/stream_base_commons.js:209:20)"
+[2022-08-29 16:41:06.068] [error] (mysql)               Connection fatal error "Error: read ECONNRESET\n    at TCP.onStreamRead (internal/stream_base_commons.js:209:20)"
+[2022-08-29 16:41:06.069] [error] (mysql)               Connection fatal error "Error: read ECONNRESET\n    at TCP.onStreamRead (internal/stream_base_commons.js:209:20)"
+[2022-08-29 16:41:06.069] [error] (mysql)               Connection fatal error "Error: read ECONNRESET\n    at TCP.onStreamRead (internal/stream_base_commons.js:209:20)"
+[2022-08-29 16:41:06.069] [error] (mysql)               Connection fatal error "Error: read ECONNRESET\n    at TCP.onStreamRead (internal/stream_base_commons.js:209:20)"
+[2022-08-29 16:41:06.069] [error] (mysql)               Connection fatal error "Error: read ECONNRESET\n    at TCP.onStreamRead (internal/stream_base_commons.js:209:20)"
+[2022-08-30 11:15:22.117] [error] (query-editor)        Error: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '* from django_migrations' at line 1
+    at Packet.asError (/opt/Beekeeper Studio/resources/app.asar/node_modules/mysql2/lib/packets/packet.js:728:17)
+    at Query.execute (/opt/Beekeeper Studio/resources/app.asar/node_modules/mysql2/lib/commands/command.js:29:26)
+    at PoolConnection.handlePacket (/opt/Beekeeper Studio/resources/app.asar/node_modules/mysql2/lib/connection.js:456:32)
+    at PacketParser.onPacket (/opt/Beekeeper Studio/resources/app.asar/node_modules/mysql2/lib/connection.js:85:12)
+    at PacketParser.executeStart (/opt/Beekeeper Studio/resources/app.asar/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/opt/Beekeeper Studio/resources/app.asar/node_modules/mysql2/lib/connection.js:92:25)
+    at Socket.emit (events.js:315:20)
+    at addChunk (internal/streams/readable.js:309:12)
+    at readableAddChunk (internal/streams/readable.js:284:9)
+    at Socket.Readable.push (internal/streams/readable.js:223:10)
+[2022-08-30 11:32:14.007] [error] (mysql)               query exception:  Error: Data too long for column 'icon' at row 1
+    at Packet.asError (/opt/Beekeeper Studio/resources/app.asar/node_modules/mysql2/lib/packets/packet.js:728:17)
+    at Query.execute (/opt/Beekeeper Studio/resources/app.asar/node_modules/mysql2/lib/commands/command.js:29:26)
+    at PoolConnection.handlePacket (/opt/Beekeeper Studio/resources/app.asar/node_modules/mysql2/lib/connection.js:456:32)
+    at PacketParser.onPacket (/opt/Beekeeper Studio/resources/app.asar/node_modules/mysql2/lib/connection.js:85:12)
+    at PacketParser.executeStart (/opt/Beekeeper Studio/resources/app.asar/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/opt/Beekeeper Studio/resources/app.asar/node_modules/mysql2/lib/connection.js:92:25)
+    at Socket.emit (events.js:315:20)
+    at addChunk (internal/streams/readable.js:309:12)
+    at readableAddChunk (internal/streams/readable.js:284:9)
+    at Socket.Readable.push (internal/streams/readable.js:223:10)
+[2022-09-02 09:05:37.822] [error] (ConnectionInterface) Error: Access denied for user ''@'localhost' (using password: NO)
+    at Packet.asError (/opt/Beekeeper Studio/resources/app.asar/node_modules/mysql2/lib/packets/packet.js:728:17)
+    at ClientHandshake.execute (/opt/Beekeeper Studio/resources/app.asar/node_modules/mysql2/lib/commands/command.js:29:26)
+    at PoolConnection.handlePacket (/opt/Beekeeper Studio/resources/app.asar/node_modules/mysql2/lib/connection.js:456:32)
+    at PacketParser.onPacket (/opt/Beekeeper Studio/resources/app.asar/node_modules/mysql2/lib/connection.js:85:12)
+    at PacketParser.executeStart (/opt/Beekeeper Studio/resources/app.asar/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/opt/Beekeeper Studio/resources/app.asar/node_modules/mysql2/lib/connection.js:92:25)
+    at Socket.emit (events.js:315:20)
+    at addChunk (internal/streams/readable.js:309:12)
+    at readableAddChunk (internal/streams/readable.js:284:9)
+    at Socket.Readable.push (internal/streams/readable.js:223:10)

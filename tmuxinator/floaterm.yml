@@ -48,4 +48,4 @@ windows:
   - float: nf
   - files: nnn -d
   - mixer: pulsemixer
-  - django: cd ~/projets/tigerfunk.tk/tigerfunk; source ../venv/bin/activate
+  - django: cd ~/projets/tigerfunk.tk/tigerfunk; source ../venv/bin/activate; clear

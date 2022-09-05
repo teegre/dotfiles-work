@@ -1,0 +1,2 @@
+#! /usr/bin/env sh
+xrandr --output HDMI-2 --mode 1920x1080 --pos 0x0
