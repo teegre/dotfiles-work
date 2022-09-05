@@ -36,6 +36,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'mhinz/vim-startify'
 Plug 'itchyny/lightline.vim'
 Plug 'savq/melange'
+Plug 'fcpg/vim-farout'
+Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
 Plug 'kien/ctrlp.vim'
 Plug 'vim-syntastic/syntastic'
 Plug 'tpope/vim-surround'
@@ -57,13 +59,13 @@ if (has('termguicolors'))
   set termguicolors
 endif
 
-colorscheme melange
+colorscheme spaceduck
 
 let g:startify_custom_header =
       \ startify#pad(split(system('figlet -f DOS\ Rebel neovim'), '\n'))
 
 let g:lightline = {
-      \ 'colorscheme': 'molokai',
+      \ 'colorscheme': 'spaceduck',
       \ }
 
 let g:chadtree_settings = {
