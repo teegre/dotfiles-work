@@ -1,2 +1,0 @@
-#! /usr/bin/env sh
-[ -n "$1" ] && cd "${1:-.}" && clear; pwd; php -S localhost:"${2:-8080}"; [ -n "$1" ] && cd - || exit 1

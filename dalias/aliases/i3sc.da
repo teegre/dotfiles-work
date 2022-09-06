@@ -1,2 +1,0 @@
-#! /usr/bin/env sh
-nvim /home/stephane/.config/i3status/config

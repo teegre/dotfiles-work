@@ -1,2 +1,0 @@
-#! /usr/bin/env sh
-littre "$1" | less -F

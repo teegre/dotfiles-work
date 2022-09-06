@@ -1,2 +1,0 @@
-#! /usr/bin/env sh
-_file="$(readlink -f  "$1")"; _file="file://${_file}"; xclip -sel clip <<< "${_file}"

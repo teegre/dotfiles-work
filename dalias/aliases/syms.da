@@ -1,2 +1,0 @@
-#! /usr/bin/env sh
-cd "${1:-.}" && clear; pwd; symfony serve; [ -n "$1" ] && cd - || exit 1

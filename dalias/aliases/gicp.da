@@ -1,2 +1,0 @@
-#! /usr/bin/env sh
-clear; git commit --patch "$@"

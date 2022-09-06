@@ -1,2 +1,0 @@
-#! /usr/bin/env sh
-if [ -f "./manage.py" ]; then ./manage.py "$@"; else echo "Django manage not found"; fi

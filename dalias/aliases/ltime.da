@@ -1,2 +1,0 @@
-#! /usr/bin/env sh
-bigtime --file simple -dNqrS

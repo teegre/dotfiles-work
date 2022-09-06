@@ -1,2 +1,0 @@
-#! /usr/bin/env sh
-if [ -f ./bin/console ]; then ./bin/console "$@"; else echo "console not found."; fi

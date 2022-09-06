@@ -1,2 +1,0 @@
-#! /usr/bin/env sh
-mysqldump -u admin -p "$1" > "$2"

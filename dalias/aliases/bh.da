@@ -1,2 +1,0 @@
-#! /usr/bin/env sh
-bash -c "help $@" | less -F

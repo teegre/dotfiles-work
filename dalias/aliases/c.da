@@ -1,2 +1,0 @@
-#! /usr/bin/env sh
-bc -l <<< "obase=10; $@"
