@@ -1,0 +1,32 @@
+#! /usr/bin/env bash
+VERSION="20200815-1.0.2"
+progname="$(basename "$0")"
+
+__help() {
+cat << 'EOB' >&2
+LSCP - list all children of a given process
+
+USAGE:
+lscp PID     - print all children of the given process id.
+lscp help    - print this help and exit.
+lscp version - print program version info and exit.
+
+EOB
+}
+
+__err() { ( >&2 echo "$1" ); }
+
+_lscp() {
+  local cproc
+  cproc=$(ps -o pid= --ppid "$1" 2> /dev/null) || return 1
+  for pid in $cproc; do
+    _lscp "$pid"
+  done
+  [[ -n $cproc ]] && echo "$cproc"
+}
+
+case $1 in
+  help) __help ;;
+  version) __err "$progname version $VERSION" ;;
+  *) _lscp "$1" || __err "invalid process ID."
+esac
