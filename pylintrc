@@ -2,6 +2,8 @@
 indent-string='  '
 indent-after-paren=2
 
-[MAIN]
+[MASTER]
 load-plugins=pylint_django
 
+[MESSAGE CONTROL]
+disable = invalid-name

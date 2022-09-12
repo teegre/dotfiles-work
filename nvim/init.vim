@@ -38,6 +38,8 @@ Plug 'itchyny/lightline.vim'
 Plug 'savq/melange'
 Plug 'fcpg/vim-farout'
 Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'romgrk/barbar.nvim'
 Plug 'kien/ctrlp.vim'
 Plug 'vim-syntastic/syntastic'
 Plug 'tpope/vim-surround'
@@ -59,20 +61,30 @@ if (has('termguicolors'))
   set termguicolors
 endif
 
-colorscheme spaceduck
+colorscheme farout
+
+let g:lightline = {
+      \ 'colorscheme': 'farout',
+      \ }
 
 let g:startify_custom_header =
       \ startify#pad(split(system('figlet -f DOS\ Rebel neovim'), '\n'))
-
-let g:lightline = {
-      \ 'colorscheme': 'spaceduck',
-      \ }
 
 let g:chadtree_settings = {
       \ 'theme.text_colour_set': 'nord',
       \  }
 
-let g:coc_global_extensions = ['coc-phpls', 'coc-tslint-plugin', 'coc-tsserver', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-jedi']
+let g:coc_global_extensions = [
+      \ 'coc-phpls',
+      \ 'coc-tslint-plugin',
+      \ 'coc-tsserver',
+      \ 'coc-css',
+      \ 'coc-html',
+      \ 'coc-json',
+      \ 'coc-prettier',
+      \ 'coc-jedi',
+      \ 'coc-bootstrap-classname'
+      \ ]
 
 let g:python3_host_prog = '/home/stephane/pynvim/bin/python'
 
@@ -119,6 +131,7 @@ let mapleader = ","
 let maplocalleader = ";"
 
 nnoremap <leader>v :CHADopen<cr>
+nnoremap <leader>bd :bdelete<cr>
 
 " quick save
 nmap <leader>, :w!<cr>
@@ -171,6 +184,11 @@ function! GetCharAtCursor()
 endfunction
 
 nnoremap <expr>K getline('.')[col('.')-1] == ' ' ? "r<cr>" : "i<cr><esc>"
+
+let bufferline = get(g:, 'bufferline', {})
+let bufferline.auto_hide = v:true
+let bufferline.closable = v:false
+let bufferline.icons = v:true
 
 " status line
 " highlight StatusLine ctermfg=232 ctermbg=240

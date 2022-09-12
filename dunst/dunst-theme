@@ -1,19 +1,19 @@
 
 [urgency_low]
-background = "#060B0F"
-foreground = "#c296c0"
-frame_color = "#c296c0"
+background = "#340a03"
+foreground = "#edcda1"
+frame_color = "#edcda1"
 timeout = 10
 
 [urgency_normal]
-background = "#D54C35"
-foreground = "#060B0F"
-frame_color = "#060B0F"
+background = "#DF5913"
+foreground = "#340a03"
+frame_color = "#340a03"
 timeout = 10
 
 [urgency_critical]
-background = "#6F134E"
-foreground = "#c296c0"
-frame_color = "#c296c0"
+background = "#C93503"
+foreground = "#edcda1"
+frame_color = "#edcda1"
 timeout = 0
 
