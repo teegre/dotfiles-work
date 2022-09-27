@@ -24,6 +24,8 @@ set ai
 set si
 set wrap
 set splitbelow splitright
+set cursorcolumn
+set cursorline
 
 let g:python_recommended_style = 0
 
@@ -37,6 +39,8 @@ Plug 'mhinz/vim-startify'
 Plug 'itchyny/lightline.vim'
 Plug 'savq/melange'
 Plug 'fcpg/vim-farout'
+Plug 'whatyouhide/vim-gotham'
+Plug 'drewtempelmeyer/palenight.vim'
 Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'romgrk/barbar.nvim'
@@ -61,10 +65,10 @@ if (has('termguicolors'))
   set termguicolors
 endif
 
-colorscheme farout
+colorscheme spaceduck
 
 let g:lightline = {
-      \ 'colorscheme': 'farout',
+      \ 'colorscheme': 'spaceduck',
       \ }
 
 let g:startify_custom_header =
@@ -83,7 +87,7 @@ let g:coc_global_extensions = [
       \ 'coc-json',
       \ 'coc-prettier',
       \ 'coc-jedi',
-      \ 'coc-bootstrap-classname'
+      \ 'coc-bootstrap-classname',
       \ ]
 
 let g:python3_host_prog = '/home/stephane/pynvim/bin/python'

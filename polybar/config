@@ -97,7 +97,7 @@ font-1 = HanaMinA:scale=1
 font-2 = Noto Color Emoji:scale=10:antialias=false;3
 font-3 = Noto Sans Symbols2:pixelsize=9;antialias=false;3
 
-modules-left = polypower hcbar1 polytitle
+modules-left = polypower hcbar1 xwindow
 modules-center = pulseaudio
 modules-right = weather1 weather2 polypac cpu memory time
 

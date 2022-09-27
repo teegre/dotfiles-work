@@ -20,13 +20,13 @@ set_git_prompt() {
   prompt="$(git branch 2> /dev/null | grep '*') " || unset prompt
 
   [[ $output ]] && {
-    [[ $(echo "$output" | grep -c "^A") -gt 0 ]] && status+="a"
-    [[ $(echo "$output" | grep -c "^ C") -gt 0 ]] && status+="c"
-    [[ $(echo "$output" | grep -c "^D") -gt 0 ]] && status+="d"
-    [[ $(echo "$output" | grep -c "^ M") -gt 0 ]] && status+="m"
-    [[ $(echo "$output" | grep -c "^ R") -gt 0 ]] && status+="r"
-    [[ $(echo "$output" | grep -c "^ U") -gt 0 ]] && status+="u"
-    [[ $(echo "$output" | grep -c "^??") -gt 0 ]] && status+="?"
+    [[ $(echo "$output" | grep -c "^.*A.*\s.*$")  -gt 0 ]] && status+="a"
+    [[ $(echo "$output" | grep -c "^.*C.*\s.*$")  -gt 0 ]] && status+="c"
+    [[ $(echo "$output" | grep -c "^.*D.*\s.*$")  -gt 0 ]] && status+="d"
+    [[ $(echo "$output" | grep -c "^.*M.*\s.*$")  -gt 0 ]] && status+="m"
+    [[ $(echo "$output" | grep -c "^.*R.*\s.*$")  -gt 0 ]] && status+="r"
+    [[ $(echo "$output" | grep -c "^.*U.*\s.*$")  -gt 0 ]] && status+="u"
+    [[ $(echo "$output" | grep -c "^.*??.*\s.*$") -gt 0 ]] && status+="?"
 
     [[ $status ]] && prompt+="(${status}) "
   }
