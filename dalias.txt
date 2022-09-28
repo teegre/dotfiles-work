@@ -4,19 +4,19 @@ do 2hex echo "obase=16; $@" | bc -l
 do au aurpac update "$@"
 do bh bash -c "help $@" | less -F
 do bt bigtime -dqs --file simple -F1
-do cbc xclip -sel clip < /dev/null
 do c bc -l <<< "obase=10; $@"
+do cbc xclip -sel clip < /dev/null
 do co composer "$@"
 do copy xclip -sel clip -i "$1"
 do crt cool-retro-term "$@"
 do cs if [ -f ./bin/console ]; then ./bin/console "$@"; else echo "console not found."; fi
-do dcp dalias cp "$@"
 do d docker "$@"
+do dcp dalias cp "$@"
 do ddo dalias do "$@"
 do ddp dalias dp "$@"
 do ded dalias ed "$@"
-do dic littre "$1" | less -F
 do di docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$@"
+do dic littre "$1" | less -F
 do djsk ma shell -c 'from django.core.management import utils; print(utils.get_random_secret_key())'
 do dkc docker-compose "$@"
 do dls dalias ls "$@"
@@ -27,9 +27,9 @@ do e nvim "$@"
 do gch git checkout "$@"
 do gf _file="$(readlink -f  "$1")"; _file="file://${_file}"; xclip -sel clip <<< "${_file}"
 do gia git add "$@"
-do gica git commit --amend "$@"
-do gicc gic .
 do gic git commit "$@"
+do gica git commit --amend "$@"
+do gicc gic . "$@"
 do gicp clear; git commit --patch "$@"
 do gil git log --color=always | less -Fr
 do gip xclip -sel clip ~/.token > /dev/null && git push "$@" && xclip -sel clip /dev/null
@@ -38,21 +38,22 @@ do gis clear; git status "$@"
 do giu git pull "$@"
 do gmv git mv "$@"
 do grm git rm "$@"
-do hcc nvim /home/stephane/.config/herbstluftwm/autostart
 do h notify-send "$(horloge)"
+do hcc nvim /home/stephane/.config/herbstluftwm/autostart
 do hostname hostnamectl --static
 do i3c nvim /home/stephane/.config/i3/config
 do i3sc nvim /home/stephane/.config/i3status/config
+do imdb sql "$1" < "$2"
 do kb setxkbmap -layout fr -option caps:ctrl_modifier && xcape -e Caps_Lock=Escape
-do lbs libresprite "$@"
 do l ls -h --group-directories-first --color=auto "$@"
+do lbs libresprite "$@"
 do ll ls -ahl --group-directories-first --color=auto "$@"
-do lock i3lock -c 000000
+do lock i3lock -c 000000 & xset dpms force off
 do loo wine /home/stephane/downloads/Looping/Looping.exe "$@"
 do lti bigtime -dNnqsvz --file block2
 do ltime bigtime --file simple -dNqrS
-do macsu ma createsuperuser "$@"
 do ma if [ -f "./manage.py" ]; then ./manage.py "$@"; else echo "Django manage not found"; fi
+do macsu ma createsuperuser "$@"
 do mald ma loaddata "$@"
 do mam ma migrate "$@"
 do mamm ma makemigrations "$@"
@@ -68,12 +69,14 @@ do mxh tmuxinator hacking-session
 do n nnn -d
 do nf clear; neofetch
 do phps [ -n "$1" ] && cd "${1:-.}" && clear; pwd; php -S localhost:"${2:-8080}"; [ -n "$1" ] && cd - || exit 1
+do pl clear; ytbgmplayer
 do png ping -c3 tigerfunk.tk
 do polyc nvim /home/stephane/.config/polybar/config
 do projector xrandr --output HDMI-2 --mode 1920x1080 --pos 0x0
 do pw pipe-viewer "$@"
 do py python3 "$@"
 do rec syms /home/stephane/projets/MSDIW22091/9_symfony/records/
+do recv-keys gpg --recv-keys "$@"
 do run clear; ma runserver "${1:-8080}"
 do screenlayout xrandr --output DP-1 --off --output DP-2 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output HDMI-1 --off --output DP-3 --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI-2 --off
 do scron sudo EDITOR=nvim crontab -e
@@ -86,7 +89,12 @@ do sudo doas "$@"
 do svc systemctl "$@"
 do sy symfony "$@"
 do syms cd "${1:-.}" && clear; pwd; symfony serve; [ -n "$1" ] && cd - || exit 1
-do ta tmux attach-session "$@"
+do synctime sudo date -s "$(wget -qSO- --max-redirect=0 https://tigerfunk.tk 2>&1 | grep Date: | cut -d' '  -f5-8)Z"
 do t typiskt "$@"
+do ta tmux attach-session "$@"
+do texbk typiskt --book ~/downloads/kmfe18440900.txt --time 300
+do texen typiskt -c english -t 300
+do texfr typiskt -c french -t 300
+do ti bigtime --file digits -NqrS
 do xt xterm -fa "TerminessTTF Nerd Font Mono:size=11:antialias=true" -class floaterm -T floaterm -geometry 120x25
 do youtube-dl yt-dlp "$@"

@@ -1,3 +1,4 @@
+synctime
 screenlayout
 kb
 setwp
