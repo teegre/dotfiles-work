@@ -1,0 +1,11 @@
+{
+  "intelephense.telemetry.enabled": false,
+  
+  // codeLens
+  "codeLens.enable": true,
+  "java.referencesCodeLens.enabled": true,
+  "java.completion.enabled": true,
+  "java.implementationsCodeLens.enabled": true,
+  "java.jdt.ls.vmargs": "-javaagent:/usr/share/java/lombok/lombok.jar"
+  // "java.jdt.ls.vmargs": "-javaagent:/usr/share/java/lombok/lombok.jar -Xbootclasspath/a:/usr/share/java/lombok/lombok.jar", //
+}

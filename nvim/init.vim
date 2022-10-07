@@ -49,8 +49,12 @@ Plug 'vim-syntastic/syntastic'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-Plug 'prabirshrestha/vim-lsp'
-Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+Plug 'mfussenegger/nvim-dap'
+Plug 'puremourning/vimspector'
+Plug 'mfussenegger/nvim-jdtls'
+" Plug 'prabirshrestha/vim-lsp'
+" Plug 'neovim/nvim-lspconfig'
 Plug 'jiangmiao/auto-pairs'
 Plug 'lervag/vimtex'
 Plug 'mhinz/neovim-remote'
@@ -78,6 +82,7 @@ let g:chadtree_settings = {
       \ 'theme.text_colour_set': 'nord',
       \  }
 
+
 let g:coc_global_extensions = [
       \ 'coc-phpls',
       \ 'coc-tslint-plugin',
@@ -87,8 +92,13 @@ let g:coc_global_extensions = [
       \ 'coc-json',
       \ 'coc-prettier',
       \ 'coc-jedi',
-      \ 'coc-bootstrap-classname',
+      \ 'coc-java',
+      \ 'coc-java-debug',
       \ ]
+
+let g:java_configuration_runtimes = [
+      \ { 'name': 'java-18-openjdk', 'path': '/usr/lib/jvm/java-18-openjdk' }
+      \]
 
 let g:python3_host_prog = '/home/stephane/pynvim/bin/python'
 
@@ -126,9 +136,6 @@ augroup project
     autocmd BufRead,BufNewFile *.h,*.c set filetype=c.doxygen
 augroup END
 
-au BufEnter,BufWinEnter,BufNewFile,BufRead *.sc,*.scd set filetype=supercollider
-au Filetype supercollider packadd scvim
-
 let g:syntastic_sh_shellcheck_args = "-x"
 
 let mapleader = ","
@@ -139,11 +146,10 @@ nnoremap <leader>bd :bdelete<cr>
 
 " quick save
 nmap <leader>, :w!<cr>
-
 " bash comment
 nmap <leader>bc I# <esc>^
 " c(ss) comment
-nmap <leader>cc I/\* <esc>A\*/<esc>^
+nmap <leader>cs I/* <esc>A*/<esc>^
 " haskell comment
 nmap <leader>hc I-- <esc>^
 " C comment
@@ -156,6 +162,8 @@ nmap <leader>s :%sor<cr>
 
 nmap <leader>rr <Plug>(coc-rename)
 nnoremap <leader>paw :CocSearch <C-R>=expand("<cword>")<cr><cr>
+
+nnoremap <leader>r :split \| term java %<cr>
 
 " clear search
 nmap <leader><space> :let @/ = ""<cr>

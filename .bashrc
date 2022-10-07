@@ -61,4 +61,3 @@ if [[ -z "$DISPLAY" ]] && [[ -n "$XDG_VTNR" ]] && [[ "$XDG_VTNR" -gt 1 ]]; then
 else
   wal -Rteq
 fi
-alias ms='/home/stephane/.src/youtube-player/index.sh'
