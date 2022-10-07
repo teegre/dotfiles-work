@@ -1,5 +1,5 @@
 {
-  "intelephense.telemetry.enabled": false,
+  "java.home": "/usr/lib/jvm/java-18-openjdk/",
   
   // codeLens
   "codeLens.enable": true,
