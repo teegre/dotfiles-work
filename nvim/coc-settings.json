@@ -1,11 +1,7 @@
 {
-  "java.home": "/usr/lib/jvm/java-18-openjdk/",
-  
-  // codeLens
-  "codeLens.enable": true,
-  "java.referencesCodeLens.enabled": true,
-  "java.completion.enabled": true,
-  "java.implementationsCodeLens.enabled": true,
-  "java.jdt.ls.vmargs": "-javaagent:/usr/share/java/lombok/lombok.jar"
-  // "java.jdt.ls.vmargs": "-javaagent:/usr/share/java/lombok/lombok.jar -Xbootclasspath/a:/usr/share/java/lombok/lombok.jar", //
+  "java.home": "/usr/lib/jvm/java-18-openjdk",
+  "java.import.maven.enabled": true,
+  "java.import.gradle.enabled": true,
+  "java.import.gradle.home": "/usr/share/java/gradle/bin/gradle",
+  "java.format.settings.url": "/home/tigerlost/.config/coc/extensions/node_modules/redhat.java/eclipse-formatter.xml"
 }
