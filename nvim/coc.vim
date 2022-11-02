@@ -3,6 +3,7 @@
 let g:coc_global_extensions = [
       \ 'coc-actions',
       \ 'coc-css',
+      \ 'coc-groovy',
       \ 'coc-html',
       \ 'coc-java',
       \ 'coc-java-debug',
@@ -12,8 +13,10 @@ let g:coc_global_extensions = [
       \ 'coc-phpls',
       \ 'coc-prettier',
       \ 'coc-snippets',
+      \ 'coc-tailwindcss',
       \ 'coc-tslint-plugin',
       \ 'coc-tsserver',
+      \ 'coc-vimtex',
       \ ]
 "
 " Some servers have issues with backup files, see #649.

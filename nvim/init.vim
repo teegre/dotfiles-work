@@ -7,17 +7,17 @@ Plug 'romgrk/barbar.nvim'
 Plug 'itchyny/lightline.vim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'fcpg/vim-farout'
+Plug 'ajmwagar/vim-deus'
 Plug 'whatyouhide/vim-gotham'
 Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
-" Plug 'kien/ctrlp.vim'
 Plug 'vim-syntastic/syntastic'
+Plug 'ggandor/leap.nvim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-dispatch'
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'honza/vim-snippets'
-" Plug 'mfussenegger/nvim-dap'
 Plug 'puremourning/vimspector'
 Plug 'jiangmiao/auto-pairs'
 Plug 'lervag/vimtex'
@@ -51,6 +51,7 @@ set splitbelow splitright
 set number relativenumber
 set linebreak wrap
 set noshowmode noshowcmd
+set mouse=
 
 
 " Colors
@@ -59,10 +60,10 @@ if (has('termguicolors'))
   set termguicolors
 endif
 
-colorscheme spaceduck
+colorscheme farout
 
 let g:lightline = {
-      \ 'colorscheme': 'spaceduck',
+      \ 'colorscheme': 'farout',
       \ }
 
 let g:startify_custom_header =
@@ -159,8 +160,15 @@ nmap <silent><leader>vt :vs +term<cr>a
 "
 nmap <silent><leader>st :sp +term<cr>a
 
+" Leave terminal mode
+"
+tnoremap <esc> <c-\><c-n>
+
 " External config files
 "
 source $HOME/.config/nvim/bufferline.vim
+source $HOME/.config/nvim/treesitter.vim
 source $HOME/.config/nvim/coc.vim
 source $HOME/.config/nvim/vimspector.vim
+source $HOME/.config/nvim/leap.vim
+source $HOME/.config/nvim/vimtex.vim

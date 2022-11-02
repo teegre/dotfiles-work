@@ -4,6 +4,9 @@ name: hacking-session
 root: ~/
 
 windows:
-  - hack: nf
+  - hack: cd ~/projets/CDA22075; nf
   - term: nf
-  - mon: htop
+  - mon: 
+      panes:
+        - htop
+        - clear; journalctl -f

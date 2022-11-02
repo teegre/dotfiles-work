@@ -2,6 +2,6 @@
   "java.home": "/usr/lib/jvm/java-18-openjdk",
   "java.import.maven.enabled": true,
   "java.import.gradle.enabled": true,
-  "java.import.gradle.home": "/usr/share/java/gradle/bin/gradle",
+  "java.import.gradle.home": "/usr/share/java/gradle",
   "java.format.settings.url": "/home/tigerlost/.config/coc/extensions/node_modules/redhat.java/eclipse-formatter.xml"
 }

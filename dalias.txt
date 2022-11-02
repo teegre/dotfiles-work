@@ -15,6 +15,7 @@ do dcp dalias cp "$@"
 do ddo dalias do "$@"
 do ddp dalias dp "$@"
 do ded dalias ed "$@"
+do del trash-put "$@"
 do di docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$@"
 do dic littre "$1" | less -F
 do djsk ma shell -c 'from django.core.management import utils; print(utils.get_random_secret_key())'
@@ -24,6 +25,7 @@ do dmv dalias mv "$@"
 do dpdb mysqldump -u admin -p "$1" > "$2"
 do drm dalias rm "$@"
 do e nvim "$@"
+do fox firefox -no-remote "$@"
 do gch git checkout "$@"
 do gf _file="$(readlink -f  "$1")"; _file="file://${_file}"; xclip -sel clip <<< "${_file}"
 do gia git add "$@"
@@ -37,6 +39,7 @@ do gir git restore "$@"
 do gis clear; git status "$@"
 do giu git pull "$@"
 do gmv git mv "$@"
+do gr if [[ -f ./gradlew ]]; then ./gradlew "$@"; else echo "not a gradle project directory."; fi
 do grm git rm "$@"
 do h notify-send "$(horloge)"
 do hcc nvim /home/stephane/.config/herbstluftwm/autostart
@@ -75,6 +78,9 @@ do polyc nvim /home/stephane/.config/polybar/config
 do projector xrandr --output HDMI-2 --mode 1920x1080 --pos 0x0
 do pw pipe-viewer "$@"
 do py python3 "$@"
+do radio80 clear; mpv https://somafm.com/u80s256.pls
+do radioamb clear; mpv https://somafm.com/deepspaceone130.pls
+do radiovap clear; mpv https://somafm.com/vaporwaves130.pls
 do rec syms /home/stephane/projets/MSDIW22091/9_symfony/records/
 do recv-keys gpg --recv-keys "$@"
 do run clear; ma runserver "${1:-8080}"
@@ -95,6 +101,6 @@ do ta tmux attach-session "$@"
 do texbk typiskt --book ~/downloads/kmfe18440900.txt --time 300
 do texen typiskt -c english -t 300
 do texfr typiskt -c french -t 300
-do ti bigtime --file digits -NqrS
+do tt bigtime --file simple -dNnqS
 do xt xterm -fa "TerminessTTF Nerd Font Mono:size=11:antialias=true" -class floaterm -T floaterm -geometry 120x25
 do youtube-dl yt-dlp "$@"
