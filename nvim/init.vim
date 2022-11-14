@@ -10,6 +10,7 @@ Plug 'fcpg/vim-farout'
 Plug 'ajmwagar/vim-deus'
 Plug 'whatyouhide/vim-gotham'
 Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
+Plug 'wadackel/vim-dogrun'
 Plug 'vim-syntastic/syntastic'
 Plug 'ggandor/leap.nvim'
 Plug 'tpope/vim-surround'
@@ -60,10 +61,10 @@ if (has('termguicolors'))
   set termguicolors
 endif
 
-colorscheme farout
+colorscheme dogrun
 
 let g:lightline = {
-      \ 'colorscheme': 'farout',
+      \ 'colorscheme': 'dogrun',
       \ }
 
 let g:startify_custom_header =
