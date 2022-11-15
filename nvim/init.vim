@@ -2,31 +2,33 @@
 "
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'mhinz/vim-startify'
-Plug 'romgrk/barbar.nvim'
-Plug 'itchyny/lightline.vim'
-Plug 'kyazdani42/nvim-web-devicons'
-Plug 'fcpg/vim-farout'
+Plug 'DaikyXendo/nvim-material-icon'
 Plug 'ajmwagar/vim-deus'
-Plug 'whatyouhide/vim-gotham'
-Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
-Plug 'wadackel/vim-dogrun'
-Plug 'vim-syntastic/syntastic'
+Plug 'aklt/plantuml-syntax'
+Plug 'dolfly/plantuml'
+Plug 'fcpg/vim-farout'
 Plug 'ggandor/leap.nvim'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-dispatch'
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'honza/vim-snippets'
-Plug 'puremourning/vimspector'
+Plug 'itchyny/lightline.vim'
 Plug 'jiangmiao/auto-pairs'
+Plug 'kyazdani42/nvim-web-devicons'
 Plug 'lervag/vimtex'
 Plug 'mhinz/neovim-remote'
-Plug 'nelsyeung/twig.vim'
-Plug 'dolfly/plantuml'
-Plug 'aklt/plantuml-syntax'
+Plug 'mhinz/vim-startify'
 Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
+Plug 'nelsyeung/twig.vim'
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
+Plug 'puremourning/vimspector'
+Plug 'romgrk/barbar.nvim'
+Plug 'samjwill/nvim-unception'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'vim-syntastic/syntastic'
+Plug 'wadackel/vim-dogrun'
+Plug 'whatyouhide/vim-gotham'
 
 call plug#end()
 
