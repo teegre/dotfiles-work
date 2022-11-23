@@ -168,9 +168,10 @@ tnoremap <esc> <c-\><c-n>
 
 " External config files
 "
-source $HOME/.config/nvim/bufferline.vim
-source $HOME/.config/nvim/treesitter.vim
-source $HOME/.config/nvim/coc.vim
-source $HOME/.config/nvim/vimspector.vim
-source $HOME/.config/nvim/leap.vim
-source $HOME/.config/nvim/vimtex.vim
+source  $HOME/.config/nvim/bufferline.vim
+source  $HOME/.config/nvim/treesitter.vim
+source  $HOME/.config/nvim/coc.vim
+source  $HOME/.config/nvim/vimspector.vim
+source  $HOME/.config/nvim/leap.vim
+source  $HOME/.config/nvim/vimtex.vim
+runtime $HOME/.config/nvim/nvim-material-icon.lua
