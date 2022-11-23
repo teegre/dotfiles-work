@@ -11,7 +11,6 @@ Plug 'ggandor/leap.nvim'
 Plug 'honza/vim-snippets'
 Plug 'itchyny/lightline.vim'
 Plug 'jiangmiao/auto-pairs'
-Plug 'kyazdani42/nvim-web-devicons'
 Plug 'lervag/vimtex'
 Plug 'mhinz/neovim-remote'
 Plug 'mhinz/vim-startify'
@@ -157,11 +156,11 @@ map <leader>cc I// <esc>^
 "
 " Vertical split
 "
-nmap <silent><leader>vt :vs +term<cr>a
+nmap <silent><leader>vt :vs +term<cr>:set nonu nornu<cr>a
 
 " Horizontal split
 "
-nmap <silent><leader>st :sp +term<cr>a
+nmap <silent><leader>st :sp +term<cr>:set nonu nornu<cr>a
 
 " Leave terminal mode
 "
