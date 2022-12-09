@@ -22,6 +22,8 @@ Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
 Plug 'puremourning/vimspector'
 Plug 'romgrk/barbar.nvim'
 Plug 'samjwill/nvim-unception'
+Plug 'tamton-aquib/duck.nvim'
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
@@ -140,17 +142,12 @@ nmap <leader>a O<esc>j
 "
 nmap <silent><leader> :let @/= ""<cr>
 
-" Comments
+" Duck
 "
-" Bash/Python
-map <leader>bc I# <esc>^
-
-" C(SS)
-map <leader>cs I/* <esc>A*/<esc>^
-
-" C
-map <leader>cc I// <esc>^
-
+nnoremap <silent><localleader>dc :lua require('duck').hatch('🐈', 5)<cr>
+nnoremap <silent><localleader>dd :lua require('duck').hatch('🦆',10)<cr>
+nnoremap <silent><localleader>ds :lua require('duck').hatch('🍓', 5)<cr>
+nnoremap <silent><localleader>dh :lua require('duck').hatch('🍯', 5)<cr>
 
 " Spawn terminals
 "
