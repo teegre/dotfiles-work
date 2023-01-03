@@ -6,10 +6,12 @@ do bh bash -c "help $@" | less -F
 do bt bigtime -dqs --file simple -F1
 do c bc -l <<< "obase=10; $@"
 do cbc xclip -sel clip < /dev/null
+do cbs echo "#! /usr/bin/env bash" > "$1" && chmod +x "$1"
 do co composer "$@"
 do copy xclip -sel clip -i "$1"
 do crt cool-retro-term "$@"
 do cs if [ -f ./bin/console ]; then ./bin/console "$@"; else echo "console not found."; fi
+do ctw clear; tw -i src/input.css -o dist/output.css --watch
 do d docker "$@"
 do dcp dalias cp "$@"
 do ddo dalias do "$@"
@@ -17,7 +19,7 @@ do ddp dalias dp "$@"
 do ded dalias ed "$@"
 do del trash-put "$@"
 do di docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$@"
-do dic littre "$1" | less -F
+do dic ~/projets/CDA22075/C_autres/littre.py "$1" | less -F
 do djsk ma shell -c 'from django.core.management import utils; print(utils.get_random_secret_key())'
 do dkc docker-compose "$@"
 do dls dalias ls "$@"
@@ -48,12 +50,13 @@ do i3c nvim /home/stephane/.config/i3/config
 do i3sc nvim /home/stephane/.config/i3status/config
 do imdb sql "$1" < "$2"
 do kb setxkbmap -layout fr -option caps:ctrl_modifier && xcape -e Caps_Lock=Escape
+do kpicc killall picom
 do l ls -h --group-directories-first --color=auto "$@"
 do lbs libresprite "$@"
 do ll ls -ahl --group-directories-first --color=auto "$@"
 do lock i3lock -c 000000 & xset dpms force off
 do loo wine /home/stephane/downloads/Looping/Looping.exe "$@"
-do lti bigtime -dNnqsvz --file block2
+do lti bigtime --file basic -dF4
 do ltime bigtime --file simple -dNqrS
 do ma if [ -f "./manage.py" ]; then ./manage.py "$@"; else echo "Django manage not found"; fi
 do macsu ma createsuperuser "$@"
@@ -64,6 +67,7 @@ do mars clear; ma runserver "$@"; echo
 do mash clear; ma shell "$@"
 do md mkdir "$@"
 do mi manpac install "$@"
+do mj fzf < ~/.local/bin/emojis.txt | cut -b 1-4 | xclip -sel clip
 do mp mpv --no-terminal "$@" &
 do mu manpac update
 do mux tmuxinator "$@"
@@ -71,13 +75,16 @@ do mxf mux floaterm
 do mxh tmuxinator hacking-session
 do n nnn -d
 do nf clear; neofetch
+do phpi php -a "$@"
 do phps [ -n "$1" ] && cd "${1:-.}" && clear; pwd; php -S localhost:"${2:-8080}"; [ -n "$1" ] && cd - || exit 1
+do picc picom --experimental-backend "$@"
 do pl clear; ytbgmplayer
+do play clear; mpv "$@"
 do png ping -c3 tigerfunk.tk
 do polyc nvim /home/stephane/.config/polybar/config
 do projector xrandr --output HDMI-2 --mode 1920x1080 --pos 0x0
 do pw pipe-viewer "$@"
-do py python3 "$@"
+do py clear; python3 "$@"
 do radio80 clear; mpv https://somafm.com/u80s256.pls
 do radioamb clear; mpv https://somafm.com/deepspaceone130.pls
 do radiovap clear; mpv https://somafm.com/vaporwaves130.pls
@@ -89,6 +96,7 @@ do scron sudo EDITOR=nvim crontab -e
 do se sudo nvim "$@"
 do sn shutdown now
 do sql mysql --user=admin --password=alcfmapjtlsbqjmsb --prompt="\d\_>>>\_" "$1"
+do sqlq sql "$1" <<< "$2"
 do srb reboot
 do ssvc sudo systemctl "$@"
 do sudo doas "$@"
@@ -102,5 +110,8 @@ do texbk typiskt --book ~/downloads/kmfe18440900.txt --time 300
 do texen typiskt -c english -t 300
 do texfr typiskt -c french -t 300
 do tt bigtime --file simple -dNnqS
-do xt xterm -fa "TerminessTTF Nerd Font Mono:size=11:antialias=true" -class floaterm -T floaterm -geometry 120x25
+do tw tailwindcss "$@"
+do u80s clear; mpv https://somafm.com/u80s256.pls
+do xsql sql <<< "$@"
+do xt xterm -fa "JetBrainsMono Nerd Font:style=Regular:size=10:antialias=true" -class floaterm -T floaterm -geometry 120x25
 do youtube-dl yt-dlp "$@"

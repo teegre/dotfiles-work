@@ -22,6 +22,7 @@ Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
 Plug 'puremourning/vimspector'
 Plug 'romgrk/barbar.nvim'
 Plug 'samjwill/nvim-unception'
+Plug 'shortcuts/no-neck-pain.nvim', { 'tag': '*' }
 Plug 'tamton-aquib/duck.nvim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
@@ -64,10 +65,12 @@ if (has('termguicolors'))
   set termguicolors
 endif
 
-colorscheme dogrun
+set background=dark
+
+colorscheme deus
 
 let g:lightline = {
-      \ 'colorscheme': 'dogrun',
+      \ 'colorscheme': 'deus',
       \ }
 
 let g:startify_custom_header =
@@ -141,6 +144,9 @@ nmap <leader>a O<esc>j
 " Clear search string
 "
 nmap <silent><leader> :let @/= ""<cr>
+
+" No neck pain
+nnoremap <silent><localleader>n :NoNeckPain<cr>
 
 " Duck
 "
