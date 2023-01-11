@@ -15,11 +15,13 @@ Plug 'lervag/vimtex'
 Plug 'mhinz/neovim-remote'
 Plug 'mhinz/vim-startify'
 Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
-Plug 'nelsyeung/twig.vim'
+" Plug 'nelsyeung/twig.vim'
 Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
 Plug 'puremourning/vimspector'
+Plug 'rest-nvim/rest.nvim'
 Plug 'romgrk/barbar.nvim'
 Plug 'samjwill/nvim-unception'
 Plug 'shortcuts/no-neck-pain.nvim', { 'tag': '*' }
@@ -28,8 +30,10 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-surround'
+Plug 'tyru/open-browser.vim'
 Plug 'vim-syntastic/syntastic'
 Plug 'wadackel/vim-dogrun'
+Plug 'weirongxu/plantuml-previewer.vim'
 Plug 'whatyouhide/vim-gotham'
 
 call plug#end()
@@ -148,6 +152,12 @@ nmap <silent><leader> :let @/= ""<cr>
 " No neck pain
 nnoremap <silent><localleader>n :NoNeckPain<cr>
 
+" PlantUML previewer
+nnoremap <silent><localleader>p :PlantumlOpen<cr>
+
+nnoremap <silent><localleader>r <Plug>RestNvim<cr>
+nnoremap <silent><localleader>rr <Plug>RestNvimLast<cr>
+
 " Duck
 "
 nnoremap <silent><localleader>dc :lua require('duck').hatch('🐈', 5)<cr>
@@ -177,4 +187,5 @@ source  $HOME/.config/nvim/coc.vim
 source  $HOME/.config/nvim/vimspector.vim
 source  $HOME/.config/nvim/leap.vim
 source  $HOME/.config/nvim/vimtex.vim
+source  $HOME/.config/nvim/rest-nvim.vim
 runtime $HOME/.config/nvim/nvim-material-icon.lua

@@ -36,7 +36,7 @@ hc keyunbind --all
 Mod=Mod4   # Use the super key as the main modifier
 
 hc keybind $Mod-x           spawn dmenu_run -fn "$fn" -nb "$nb" -nf "$nf" -sb "$sb" -sf "$sf"
-# hc keybind $Mod-Control-x   spawn bmenu
+hc keybind $Mod-Control-x   spawn bmenu
 hc keybind $Mod-Shift-e     spawn hc-restart-menu
 
 # shellcheck disable=SC2086

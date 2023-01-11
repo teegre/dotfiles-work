@@ -1,0 +1,59 @@
+# NAME: BASIC3
+# AUTHOR: TEEGRE
+# LAST MODIFIED: 2023-01-04
+#
+# GEOMETRY
+#
+height=3
+width=4
+sep_width=3
+
+# PARAMETERS
+#
+## Filled space
+#
+char=
+## Empty space
+#
+space=
+
+## LAYOUT
+# 
+layout=
+
+## SECONDS
+#
+seconds=
+
+## INDICATORS
+#
+am_indicator=a
+pm_indicator=p
+signal_indicator=╺
+alarm_indicator=╺
+snooze_indicator=╍
+timer_indicator=╺
+
+## COLORS
+#
+background=
+foreground=
+
+# DIGITS
+# ╹╻╸╺
+0=┏━━┓;┃00┃;┗━━┛
+1=00╻0;00┃0;00╹0
+2=╺━━┓;┏━━┛;┗━━╸
+3=╺━━┓;╺━━┫;╺━━┛
+4=╻00╻;┗━━┫;000╹
+5=┏━━╸;┗━━┓;╺━━┛
+6=┏━━╸;┣━━┓;┗━━┛
+7=╺━━┓;000┃;000╹
+8=┏━━┓;┣━━┫;┗━━┛
+9=┏━━┓;┗━━┫;╺━━┛
+
+# SEPARATOR AND BLANK
+#
+separator=000;000;0╹0
+blank=000;000;000
+
