@@ -4,7 +4,7 @@ name: hacking-session
 root: ~/
 
 windows:
-  - hack: cd ~/projets/CDA22075; nf
+  - hack: cd ~/projets/gesfluid; nf
   - term: nf
   - mon: 
       panes:

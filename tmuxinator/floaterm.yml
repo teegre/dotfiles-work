@@ -49,3 +49,5 @@ windows:
   - files: nnn -d
   - mixer: pulsemixer
   - music: cd music; nf
+  - syms: syms projets/gesfluid
+  - yarn: cd projets/gesfluid; yw

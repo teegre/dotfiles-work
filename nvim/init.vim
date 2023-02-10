@@ -71,10 +71,10 @@ endif
 
 set background=dark
 
-colorscheme deus
+colorscheme spaceduck
 
 let g:lightline = {
-      \ 'colorscheme': 'deus',
+      \ 'colorscheme': 'spaceduck',
       \ }
 
 let g:startify_custom_header =
