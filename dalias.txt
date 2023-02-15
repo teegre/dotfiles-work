@@ -41,6 +41,7 @@ do gir git restore "$@"
 do gis clear; git status "$@"
 do giu git pull "$@"
 do gmv git mv "$@"
+do gpa git push afpa
 do gr if [[ -f ./gradlew ]]; then ./gradlew "$@"; else echo "not a gradle project directory."; fi
 do grm git rm "$@"
 do h notify-send "$(horloge)"
@@ -56,7 +57,7 @@ do lbs libresprite "$@"
 do ll ls -ahl --group-directories-first --color=auto "$@"
 do lock i3lock -c 000000 & xset dpms force off
 do loo wine /home/stephane/downloads/Looping/Looping.exe "$@"
-do lti bigtime --file basic -dF4
+do lti bigtime --file basic3 -dfqrS
 do ltime bigtime --file simple -dNqrS
 do ma if [ -f "./manage.py" ]; then ./manage.py "$@"; else echo "Django manage not found"; fi
 do macsu ma createsuperuser "$@"
@@ -102,8 +103,8 @@ do ssvc sudo systemctl "$@"
 do sudo doas "$@"
 do svc systemctl "$@"
 do sy symfony "$@"
-do syms cd "${1:-.}" && clear; pwd; symfony serve; [ -n "$1" ] && cd - || exit 1
-do synctime sudo date -s "$(wget -qSO- --max-redirect=0 https://tigerfunk.tk 2>&1 | grep Date: | cut -d' '  -f5-8)Z"
+do syms cd "${1:-.}" && clear; pwd; cs cache:clear; symfony serve; [ -n "$1" ] && cd - || exit 1
+do synctime sudo date -s "$(wget -qSO- --max-redirect=0 https://tigerfunk.tk 2>&1 | grep Date: | cut -d' ' -f5-8)Z"
 do t typiskt "$@"
 do ta tmux attach-session "$@"
 do texbk typiskt --book ~/downloads/kmfe18440900.txt --time 300
@@ -115,3 +116,4 @@ do u80s clear; mpv https://somafm.com/u80s256.pls
 do xsql sql <<< "$@"
 do xt xterm -fa "JetBrainsMono Nerd Font:style=Regular:size=10:antialias=true" -class floaterm -T floaterm -geometry 120x25
 do youtube-dl yt-dlp "$@"
+do yw clear; yarn watch
